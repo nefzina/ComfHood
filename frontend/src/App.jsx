@@ -20,7 +20,7 @@ function App() {
               <Link to="/tshirts">T-shirts</Link>
             </li>
           </ul>
-          <Link>
+          <Link to="/cart">
             <img src={cart} alt="cart" />
           </Link>
         </header>

@@ -1,7 +1,3 @@
 export default function Clothes() {
-  return (
-    <>
-      <div>clothes</div>
-    </>
-  );
+  return <div>clothes</div>;
 }
