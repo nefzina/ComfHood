@@ -1,0 +1,33 @@
+.bestSellersSection {
+  width: 100%;
+  height: fit-content;
+  background-color: #f1f2f4;
+  padding: 15px;
+
+  .background {
+    display: flex;
+    justify-content: space-between;
+    align-items: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+    height: fit-content;
+
+    .col {
+      width: 48%;
+      max-width: 300px;
+      height: 400px;
+      border-radius: 10px;
+      display: block;
+    }
+    .col1 {
+      background-color: #fbc677;
+    }
+    .col2 {
+      background-color: #79aeb2;
+    }
+    .col3 {
+      background-color: #5ab27d;
+    }
+  }
+}
