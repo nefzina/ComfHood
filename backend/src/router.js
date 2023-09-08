@@ -1,13 +1,25 @@
 const express = require("express");
+const multer = require("multer");
+const uploadFile = require("./services/uploadFile");
 
 const router = express.Router();
 
-const itemControllers = require("./controllers/itemControllers");
+const clothesControllers = require("./controllers/clothesControllers");
+const typesControllers = require("./controllers/typesControllers");
 
-router.get("/items", itemControllers.browse);
-router.get("/items/:id", itemControllers.read);
-router.put("/items/:id", itemControllers.edit);
-router.post("/items", itemControllers.add);
-router.delete("/items/:id", itemControllers.destroy);
+router.get("/clothes", clothesControllers.browse);
+router.get("/clothes/:id", clothesControllers.read);
+router.put("/clothes/:id", clothesControllers.edit);
+router.post("/clothes", clothesControllers.add);
+router.delete("/clothes/:id", clothesControllers.destroy);
+
+router.get("/types", typesControllers.browse);
+// router.get("/types/:id", typesControllers.read);
+router.put("/types/:id", typesControllers.edit);
+router.post("/types", typesControllers.add);
+router.delete("/types/:id", typesControllers.destroy);
+
+const upload = multer({ dest: "./public/uploads" });
+router.post("/photos", upload.single("photo"), uploadFile.uploadFile);
 
 module.exports = router;

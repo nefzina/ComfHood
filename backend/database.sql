@@ -15,16 +15,24 @@ CREATE TABLE users (
   role_id int(5) NOT NULL, FOREIGN KEY (role_id) REFERENCES roles(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- types table --
+CREATE TABLE types (
+id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+type varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO types (type) VALUES ('Hoodies'), ('T-shirts');
 
- -- items table --
-CREATE TABLE items (
+ -- clothes table --
+CREATE TABLE clothes (
 id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-type varchar(255) NOT NULL,
+type_id int NOT NULL, FOREIGN KEY (type_id) REFERENCES types(id),
 name varchar(255) NOT NULL,
 material varchar(255) NOT NULL,
 quantity int(11) NOT NULL,
-reference varchar(255) UNIQUE NOT NULL,
-color varchar(255) NOT NULL
+color varchar(255) NOT NULL,
+description varchar(255),
+photo varchar(255) DEFAULT '/assets/images/tailoring.jpg',
+isPublic TINYINT(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
  -- carts table --
@@ -33,8 +41,8 @@ CREATE TABLE carts (
   total_price varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
- -- items_carts table --
-CREATE TABLE items_carts (
-  items_id int(11), FOREIGN KEY (items_id) REFERENCES items(id),
+ -- clothes_carts table --
+CREATE TABLE clothes_carts (
+  clothes_id int(11), FOREIGN KEY (clothes_id) REFERENCES clothes(id),
   carts_id int(11), FOREIGN KEY (carts_id) REFERENCES carts(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

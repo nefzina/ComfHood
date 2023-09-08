@@ -1,0 +1,27 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+
+  input,
+  textarea,
+  select {
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 5px;
+    outline: none;
+    border: 1px solid rgb(206, 206, 206);
+  }
+
+  input {
+    height: 25px;
+  }
+
+  textarea {
+    height: 120px;
+    resize: none;
+    width: 100%;
+  }
+}
