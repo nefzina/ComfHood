@@ -1,47 +1,55 @@
+import { useState } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Admin from "./pages/Admin";
 import Cart from "./pages/Cart";
-import Clothes from "./pages/Clothes";
-import Home from "./pages/Home";
-import "./App.scss";
 import cart from "./assets/trolley.png";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import Item from "./pages/Item";
+import person from "./assets/user.png";
+import shield from "./assets/shield.png";
+import SignInUpModal from "./components/SignInUpModal";
+import "./App.scss";
 
 function App() {
+  const admin = true; // optimize css when admin is false
+  const [showModal, setShowModal] = useState(false);
+
   return (
-    <div className="App">
+    <div className="app">
       <BrowserRouter>
         <header>
           <Link to="/" className="logo">
             ConfHood
           </Link>
-          <ul className="tabs">
-            <li>
-              <Link to="/hoodies">Hoodies</Link>
-            </li>
-            <li>
-              <Link to="/tshirts">T-shirts</Link>
-            </li>
-          </ul>
-          <Link to="/cart" className="cartImg">
-            <img src={cart} alt="cart" />
-          </Link>
+
+          <div className="buttons">
+            {admin && (
+              <Link to="/dashboard">
+                <img src={shield} alt="shield" />
+              </Link>
+            )}
+
+            <button type="button" onClick={() => setShowModal(true)}>
+              <img src={person} alt="sign up sign in" />
+            </button>
+
+            <Link to="/cart">
+              <img src={cart} alt="cart" />
+            </Link>
+          </div>
         </header>
+
+        {showModal && <SignInUpModal setShowModal={setShowModal} />}
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route
-            path="/hoodies"
-            element={<Clothes key="hoodies" clothesType={1} />}
-          />
-          <Route
-            path="/tshirts"
-            element={<Clothes key="tshirts" clothesType={2} />}
-          />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/dashboard" element={<Admin />} />
+          <Route path="/clothes/:id" element={<Item />} />
         </Routes>
       </BrowserRouter>
-      <footer>Footer</footer>
+      <Footer setShowModal={setShowModal} />
     </div>
   );
 }
