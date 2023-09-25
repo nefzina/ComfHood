@@ -29,7 +29,7 @@ pool.getConnection().catch(() => {
 
 const models = {};
 
-const ClothesManager = require("./ClothesManager");
+const ClothesManager = require("./ItemsManager");
 const TypesManager = require("./TypesManager");
 
 models.article = new ClothesManager();
