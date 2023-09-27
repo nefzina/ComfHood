@@ -46,7 +46,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/dashboard" element={<Admin />} />
-          <Route path="/clothes/:id" element={<Item />} />
+          <Route path="/items/:id" element={<Item />} />
         </Routes>
       </BrowserRouter>
       <Footer setShowModal={setShowModal} />

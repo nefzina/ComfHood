@@ -8,7 +8,7 @@ export default function Item() {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/clothes/${id}`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/items/${id}`)
       .then((result) => setItem(result.data))
       .catch((err) => console.error(err));
   }, []);

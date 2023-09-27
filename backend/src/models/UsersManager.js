@@ -1,6 +1,6 @@
 const AbstractManager = require("./AbstractManager");
 
-class ClothesManager extends AbstractManager {
+class UsersManager extends AbstractManager {
   constructor() {
     super({ table: "users" });
   }
@@ -21,10 +21,10 @@ class ClothesManager extends AbstractManager {
 
   update(user) {
     return this.database.query(
-      `update ${this.table} set title = ? where id = ?`,
-      [user.title, user.id]
+      `update ${this.table} set firstname = ?, lastname = ?, hpassword = ? where id = ?`,
+      [user.firstname, user.lastname, user.hpassword, user.id]
     );
   }
 }
 
-module.exports = ClothesManager;
+module.exports = UsersManager;

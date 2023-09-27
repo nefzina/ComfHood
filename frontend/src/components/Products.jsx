@@ -11,7 +11,7 @@ export default function Products({ clothesTypes }) {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/clothes`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/items`)
       .then((result) => setClothesList(result.data))
       .catch((err) => console.error(err));
   }, [isShown]);

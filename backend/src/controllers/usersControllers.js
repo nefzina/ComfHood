@@ -58,7 +58,7 @@ const add = (req, res) => {
   models.users
     .insert(user)
     .then(([result]) => {
-      res.location(`/clothes/${result.insertId}`).sendStatus(201);
+      res.location(`/items/${result.insertId}`).sendStatus(201);
     })
     .catch((err) => {
       console.error(err);

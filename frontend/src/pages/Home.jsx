@@ -7,7 +7,7 @@ export default function Home() {
   const [productsList, setProductsList] = useState([]);
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/clothes`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/items`)
       .then((result) => setProductsList(result.data))
       .catch((err) => console.error(err));
   }, []);
@@ -17,11 +17,7 @@ export default function Home() {
       <div className="products">
         {productsList &&
           productsList.map((product) => (
-            <Link
-              className="card"
-              key={product.id}
-              to={`/clothes/${product.id}`}
-            >
+            <Link className="card" key={product.id} to={`/items/${product.id}`}>
               <img
                 src={`${import.meta.env.VITE_BACKEND_URL}${product.photo}`}
                 alt={product.name}

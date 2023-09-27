@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import "../scss/signinupmodal.scss";
+import { Axios } from "axios";
 
 export default function SignInUpModal({ setShowModal }) {
   const [tab, setTab] = useState(1);
@@ -9,7 +10,22 @@ export default function SignInUpModal({ setShowModal }) {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLarstname] = useState("");
 
-  const handleSignIn = () => {};
+  const handleSignIn = (e) => {
+    e.preventDefault();
+  };
+
+  const handleSignUp = (e) => {
+    e.preventDefault();
+
+    Axios.post(`${import.meta.env.VITE_BACKEND_URL}/users`, {
+      firstname,
+      lastname,
+      email,
+      password,
+    })
+      .then((result) => console.warn(result))
+      .catch((err) => console.error(err));
+  };
 
   return (
     <div className="signInModal">
@@ -55,7 +71,7 @@ export default function SignInUpModal({ setShowModal }) {
         )}
         {tab === 2 && (
           <div className="signup">
-            <form action="" onSubmit={() => handleSignIn()}>
+            <form action="" onSubmit={() => handleSignUp()}>
               <label htmlFor="email">Email</label>
               <input
                 type="text"

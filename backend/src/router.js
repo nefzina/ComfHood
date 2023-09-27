@@ -4,16 +4,16 @@ const uploadFile = require("./services/uploadFile");
 
 const router = express.Router();
 
-const clothesControllers = require("./controllers/itemsControllers");
+const itemsControllers = require("./controllers/itemsControllers");
 const typesControllers = require("./controllers/typesControllers");
 const usersControllers = require("./controllers/usersControllers");
 const cartsControllers = require("./controllers/cartsControllers");
 
-router.get("/clothes", clothesControllers.browse);
-router.get("/clothes/:id", clothesControllers.read);
-router.put("/clothes/:id", clothesControllers.edit);
-router.post("/clothes", clothesControllers.add);
-router.delete("/clothes/:id", clothesControllers.destroy);
+router.get("/items", itemsControllers.browse);
+router.get("/items/:id", itemsControllers.read);
+router.put("/items/:id", itemsControllers.edit);
+router.post("/items", itemsControllers.add);
+router.delete("/items/:id", itemsControllers.destroy);
 
 router.get("/types", typesControllers.browse);
 // router.get("/types/:id", typesControllers.read);

@@ -16,10 +16,10 @@ export default function Cart() {
   return cartItems ? (
     cartItems.map((item) => (
       <div className="row">
-        <Link to={`/clothes/${item.id}`}>
+        <Link to={`/items/${item.id}`}>
           <img src={item.photo} alt={item.name} />
         </Link>
-        <Link to={`/clothes/${item.id}`}>{item.name}</Link>
+        <Link to={`/items/${item.id}`}>{item.name}</Link>
         <p>{item.price}</p>
       </div>
     ))

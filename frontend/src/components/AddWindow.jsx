@@ -30,7 +30,7 @@ export default function AddWindow({ setIsShown }) {
           if (result.status === 201) {
             // post all input data after file upload
             axios
-              .post(`${import.meta.env.VITE_BACKEND_URL}/clothes`, {
+              .post(`${import.meta.env.VITE_BACKEND_URL}/items`, {
                 typeId,
                 name,
                 material,
