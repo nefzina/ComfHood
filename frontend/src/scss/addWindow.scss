@@ -1,27 +1,98 @@
-.form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 400px;
-  padding: 20px;
+.addModal {
+  position: fixed;
+  width: 98%;
+  height: 97vh;
+  left: 1%;
+  top: 1.5%;
+  background-image: linear-gradient(
+    to top,
+    #f699ce,
+    #e59bd9,
+    #d19fe2,
+    #bca2e8,
+    #a5a5ea,
+    #94aded,
+    #86b3ec,
+    #7bb9e9,
+    #7ec4e6,
+    #89cee2,
+    #9ad6de,
+    #aededc
+  );
+  padding: 30px;
+  box-shadow: 4px 3px 10px 7px rgba(46, 46, 46, 0.19);
 
-  input,
-  textarea,
-  select {
-    border-radius: 5px;
-    margin-bottom: 10px;
-    padding: 5px;
-    outline: none;
-    border: 1px solid rgb(206, 206, 206);
+  .close {
+    margin: 0 0 50px calc(100% - 40px);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background-color: white;
   }
-
-  input {
-    height: 25px;
-  }
-
-  textarea {
-    height: 120px;
-    resize: none;
+  .form {
     width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    margin: 0 auto;
+
+    label {
+      color: rgb(97, 97, 219);
+      font-weight: 600;
+      display: block;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      padding: 5px;
+      outline: none;
+      border: 1px solid rgb(175, 175, 175);
+    }
+
+    input {
+      height: 28px;
+    }
+
+    textarea {
+      height: 120px;
+      resize: none;
+      width: 100%;
+    }
+
+    #photo {
+      border: 1px solid white;
+      height: 33px;
+    }
+    label[htmlFor="public"] {
+      width: 10px;
+    }
+    #public {
+      display: inline;
+      width: fit-content;
+    }
+
+    button[type="submit"] {
+      display: block;
+      width: 100%;
+      max-width: 180px;
+      height: 30px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background-color: #ffdaf9;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: rgb(97, 97, 219);
+
+      &:hover {
+        background-color: #dd63c9;
+        color: white;
+      }
+    }
   }
 }

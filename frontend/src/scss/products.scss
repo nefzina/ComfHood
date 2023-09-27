@@ -1,0 +1,67 @@
+.products {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 1180px;
+  padding-top: 70px;
+
+  .addBtn {
+    width: 170px;
+    padding: 10px 0;
+    margin: 0 0 0 calc(100% - 170px);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .articleType {
+    width: 95%;
+    max-width: 1200px;
+    border: 1px solid rgb(236, 236, 236);
+    height: fit-content;
+    margin: 25px 15px;
+    padding: 10px;
+    font-weight: 700;
+    box-shadow: 4px 3px 10px 7px rgba(233, 233, 233, 0.19);
+
+    table {
+      width: 100%;
+      padding-top: 30px;
+      border-collapse: separate;
+      border-spacing: 0 15px;
+
+      tbody > tr {
+        border: 1px solid rgb(236, 236, 236);
+        font-weight: 400;
+
+        .photos {
+          width: 150px;
+
+          img {
+            width: 100%;
+          }
+        }
+
+        td {
+          text-align: center;
+
+          .modifyBtn {
+            width: 25px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+
+            img {
+              width: 100%;
+            }
+
+            &:hover {
+              transform: scale(1.2);
+            }
+          }
+        }
+      }
+    }
+  }
+}

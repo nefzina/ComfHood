@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import "../scss/addWindow.scss";
+import PropTypes from "prop-types";
 
-export default function AddWindow() {
+export default function AddWindow({ setIsShown }) {
   const [clothesTypes, setClothesTypes] = useState([]);
   const inputRef = useRef(null);
 
@@ -13,6 +14,8 @@ export default function AddWindow() {
   const [color, setColor] = useState("");
   const [description, setDescription] = useState("");
   const [isPublic, setIsPublic] = useState(false);
+  const [price, setPrice] = useState(0.0);
+
   const [msg, setMsg] = useState("");
 
   const handleSubmission = (e) => {
@@ -27,7 +30,7 @@ export default function AddWindow() {
           if (result.status === 201) {
             // post all input data after file upload
             axios
-              .post(`${import.meta.env.VITE_BACKEND_URL}/clothes`, {
+              .post(`${import.meta.env.VITE_BACKEND_URL}/items`, {
                 typeId,
                 name,
                 material,
@@ -36,6 +39,7 @@ export default function AddWindow() {
                 description,
                 photo: `/uploads/${result.data}`,
                 isPublic,
+                price,
               })
               .then((resp) => {
                 if (resp.status === 201) setMsg("New article was added !");
@@ -55,6 +59,7 @@ export default function AddWindow() {
           color,
           description,
           isPublic,
+          price,
         })
         .then((resp) => {
           if (resp.status === 201) setMsg("New article was added !");
@@ -63,7 +68,7 @@ export default function AddWindow() {
     }
 
     setTimeout(() => {
-      inputRef.current = null;
+      // inputRef.current = null;
       setTypeId(0);
       setName("");
       setMaterial("");
@@ -71,6 +76,7 @@ export default function AddWindow() {
       setColor("");
       setDescription("");
       setIsPublic(false);
+      setPrice(0.0);
     }, 500);
 
     setTimeout(() => {
@@ -86,7 +92,10 @@ export default function AddWindow() {
   }, []);
 
   return (
-    <div>
+    <div className="addModal">
+      <button type="button" className="close" onClick={() => setIsShown(false)}>
+        x
+      </button>
       <form
         className="form"
         encType="multipart/form-data"
@@ -151,6 +160,16 @@ export default function AddWindow() {
           onChange={(e) => setDescription(e.target.value)}
         />
 
+        <label htmlFor="price">Price</label>
+        <input
+          type="number"
+          step="0.01"
+          min="0"
+          id="price"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+        />
+
         <label htmlFor="photo">Upload photos</label>
         <input type="file" id="photo" name="photo" ref={inputRef} />
 
@@ -162,10 +181,14 @@ export default function AddWindow() {
           onClick={() => setIsPublic(!isPublic)}
         />
 
-        <button type="submit">Add</button>
+        <button type="submit">Add new item</button>
       </form>
 
       <p className="msg">{msg}</p>
     </div>
   );
 }
+
+AddWindow.propTypes = {
+  setIsShown: PropTypes.func.isRequired,
+};

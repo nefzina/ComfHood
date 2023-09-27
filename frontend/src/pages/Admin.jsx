@@ -1,19 +1,36 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import AddWindow from "../components/AddWindow";
+import Products from "../components/Products";
+import "../scss/admin.scss";
 
 export default function Admin() {
-  const [isShown, setIsShown] = useState(false);
+  const [tab, setTab] = useState("dashboard");
+  const [clothesTypes, setClothesTypes] = useState([]);
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_BACKEND_URL}/clothes`);
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/types`)
+      .then((result) => setClothesTypes(result.data))
+      .catch((err) => console.error(err));
   }, []);
+
   return (
-    <>
-      <button type="button" onClick={() => setIsShown(!isShown)}>
-        Add article
-      </button>
-      {isShown && <AddWindow />}
-    </>
+    <div className="admin">
+      <div className="AdminNavBar">
+        <button type="button" onClick={() => setTab("dashboard")}>
+          Dashboard
+        </button>
+
+        <button type="button" onClick={() => setTab("products")}>
+          Products
+        </button>
+
+        <button type="button" onClick={() => setTab("customers")}>
+          Customers
+        </button>
+      </div>
+
+      {tab === "products" && <Products clothesTypes={clothesTypes} />}
+    </div>
   );
 }
