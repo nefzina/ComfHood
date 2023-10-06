@@ -13,10 +13,13 @@ CREATE TABLE users (
   lastname varchar(255) NOT NULL,
   email varchar(255) UNIQUE NOT NULL,
   hpassword varchar(255) NOT NULL,
-  role_id int(5) NOT NULL, FOREIGN KEY (role_id) REFERENCES roles(id),
-  cart_id int(11) NOT NULL, FOREIGN KEY (cart_id) REFERENCES carts(id)
-
+  role_id int(5) NOT NULL DEFAULT 1, FOREIGN KEY (role_id) REFERENCES roles(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO users (firstname, lastname, email, hpassword, role_id) VALUES
+("first", "visitor", "visitor@mail.com ", "$argon2id$v=19$m=65536,t=5,p=1$7ZWpaTY9eIv+zChdo6bj1A$3bMjdfo1iY8NRzLnnTEVkNQokxQ0kdKhp9sCOqduIzA", 1),
+("Koukie ", "Dough ", "cookie@mail.com", "$argon2id$v=19$m=65536,t=5,p=1$3/eCgecXfcEqbq8KHNPpmg$zbyxJvBNBSLD7iCUzqji09J/7S8C6h2jZKlAVc+0s8M", 1),
+("lilac", "flower", "lilac@mail.com", "$argon2id$v=19$m=65536,t=5,p=1$al5PkvjEtY0hpu2jhw1iEQ$hEb/onodTxwUVAbMKAk9vm26tYktN/8I4HjR2tyHed8", 2);
 
 -- types table --
 CREATE TABLE types (
@@ -43,5 +46,5 @@ price float NOT NULL
  -- carts table --
 CREATE TABLE carts (
   item_id int(11), FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE,
-  user_id int(11), FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+  user_id int(11) UNSIGNED, FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

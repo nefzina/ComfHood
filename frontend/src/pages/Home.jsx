@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../scss/home.scss";
 import axios from "axios";
+import bannerImg from "../assets/homePage-welcomeSection.jpg";
 
 export default function Home() {
   const [productsList, setProductsList] = useState([]);
@@ -13,7 +14,10 @@ export default function Home() {
   }, []);
   return (
     <div className="home">
-      <div className="banner">top</div>
+      <div className="banner">
+        <img src={bannerImg} alt="male in hoodie" />
+        <h1 className="slogan">Wear more of what makes you Comfy</h1>
+      </div>
       <div className="products">
         {productsList &&
           productsList.map((product) => (

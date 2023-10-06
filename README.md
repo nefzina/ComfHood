@@ -51,3 +51,10 @@ For deployment, you have to go to `secrets` → app `actions` on the github repo
 - CAPROVER_FRONT_APPNAME : name app on caprover
 - CAPROVER_PASSWORD : password caprover
 - CAPROVER_SERVER : link of domain
+
+
+<a href="https://www.flaticon.com/free-icons/animals" title="animals icons">Animals icons created by Freepik - Flaticon</a>
+
+<a href="https://www.freepik.com/free-ai-image/fashionable-men-jacket-hanging-clothing-store-generated-by-ai_42735497.htm#query=t-shirts%20hoodies&position=15&from_view=search&track=ais">Image By vecstock</a>
+Photo de <a href="https://unsplash.com/fr/@timothywilliamrose?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Timothy Rose</a> sur <a href="https://unsplash.com/fr/photos/nBaf7c_wd80?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+  
