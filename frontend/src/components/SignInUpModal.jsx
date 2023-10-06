@@ -1,17 +1,44 @@
+import Axios from "axios";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import UserContext from "../contexts/UserContext";
 import "../scss/signinupmodal.scss";
-import { Axios } from "axios";
 
 export default function SignInUpModal({ setShowModal }) {
   const [tab, setTab] = useState(1);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstname, setFirstname] = useState("");
-  const [lastname, setLarstname] = useState("");
+  const [lastname, setLastname] = useState("");
+
+  const { setUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const handleSignIn = (e) => {
     e.preventDefault();
+    Axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`, {
+      email,
+      password,
+    })
+      .then((res) => {
+        if (res.data.role_id === 2) {
+          setUser(res.data);
+          setTimeout(() => {
+            setShowModal(false);
+            navigate("/dashboard");
+          }, 400);
+        } else {
+          setUser(res.data);
+
+          setTimeout(() => {
+            setShowModal(false);
+            navigate("/");
+          }, 400);
+        }
+      })
+
+      .catch((err) => console.error(err));
   };
 
   const handleSignUp = (e) => {
@@ -48,7 +75,7 @@ export default function SignInUpModal({ setShowModal }) {
       <div className="wrapper">
         {tab === 1 && (
           <div className="signin">
-            <form action="" onSubmit={() => handleSignIn()}>
+            <form action="" onSubmit={(e) => handleSignIn(e)}>
               <label htmlFor="email">Email</label>
               <input
                 type="text"
@@ -59,7 +86,7 @@ export default function SignInUpModal({ setShowModal }) {
 
               <label htmlFor="password">Password</label>
               <input
-                type="text"
+                type="password"
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -71,7 +98,7 @@ export default function SignInUpModal({ setShowModal }) {
         )}
         {tab === 2 && (
           <div className="signup">
-            <form action="" onSubmit={() => handleSignUp()}>
+            <form action="" onSubmit={(e) => handleSignUp(e)}>
               <label htmlFor="email">Email</label>
               <input
                 type="text"
@@ -93,12 +120,12 @@ export default function SignInUpModal({ setShowModal }) {
                 type="text"
                 id="lastname"
                 value={lastname}
-                onChange={(e) => setLarstname(e.target.value)}
+                onChange={(e) => setLastname(e.target.value)}
               />
 
               <label htmlFor="password">Password</label>
               <input
-                type="text"
+                type="password"
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

@@ -2,9 +2,22 @@
   width: 100%;
   max-width: 1920px;
   height: fit-content;
-  padding: 15px;
   margin: 0 auto;
   .banner {
+    width: 100%;
+    position: relative;
+    img {
+      object-fit: cover;
+      width: 100%;
+      max-height: 500px;
+    }
+    .slogan {
+      position: absolute;
+      left: clamp(30px, 10vw, 250px);
+      top: clamp(60px, 10vw, 150px);
+      font-size: clamp(0.6rem, 5vw, 2.5rem);
+      width: clamp(90px, 35vw, 400px);
+    }
   }
 
   .products {

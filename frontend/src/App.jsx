@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Admin from "./pages/Admin";
+import AdminProtectedRoutes from "./layouts/AdminProtectedRoutes";
 import Cart from "./pages/Cart";
 import cart from "./assets/trolley.png";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Item from "./pages/Item";
+import koala from "./assets/koala.png";
 import person from "./assets/user.png";
+import ProtectedRoutes from "./layouts/ProtectedRoutes";
 import shield from "./assets/shield.png";
 import SignInUpModal from "./components/SignInUpModal";
 import "./App.scss";
@@ -20,7 +23,10 @@ function App() {
       <BrowserRouter>
         <header>
           <Link to="/" className="logo">
-            ConfHood
+            <i>
+              <img src={koala} alt="koala" />
+              ComfHood
+            </i>
           </Link>
 
           <div className="buttons">
@@ -43,10 +49,19 @@ function App() {
         {showModal && <SignInUpModal setShowModal={setShowModal} />}
 
         <Routes>
+          {/* PUBLIC ROUTES */}
           <Route path="/" element={<Home />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/dashboard" element={<Admin />} />
           <Route path="/items/:id" element={<Item />} />
+
+          {/* LOGGED USER ROUTES */}
+          <Route element={<ProtectedRoutes />}>
+            <Route path="/cart" element={<Cart />} />
+          </Route>
+
+          {/* LOGGED ADMIN ROUTES */}
+          <Route element={<AdminProtectedRoutes />}>
+            <Route path="/dashboard" element={<Admin />} />
+          </Route>
         </Routes>
       </BrowserRouter>
       <Footer setShowModal={setShowModal} />

@@ -1,12 +1,15 @@
 const express = require("express");
 const multer = require("multer");
 const uploadFile = require("./services/uploadFile");
+const { hashPassword } = require("./services/auth");
+const { validateUser, validateLogin } = require("./middlewares/validator");
 
 const router = express.Router();
 
 const itemsControllers = require("./controllers/itemsControllers");
 const typesControllers = require("./controllers/typesControllers");
 const usersControllers = require("./controllers/usersControllers");
+const authControllers = require("./controllers/authControllers");
 const cartsControllers = require("./controllers/cartsControllers");
 
 router.get("/items", itemsControllers.browse);
@@ -26,9 +29,11 @@ router.post("/photos", upload.single("photo"), uploadFile.uploadFile);
 
 router.get("/users", usersControllers.browse);
 router.get("/users/:id", usersControllers.read);
-router.put("/users/:id", usersControllers.edit);
-router.post("/users", usersControllers.add);
+router.put("/users/:id", validateUser, hashPassword, usersControllers.edit);
+router.post("/users", validateUser, hashPassword, usersControllers.add);
 router.delete("/users/:id", usersControllers.destroy);
+
+router.post("/login", validateLogin, authControllers.login);
 
 router.get("/carts/:id", cartsControllers.read);
 router.put("/carts/:id", cartsControllers.edit);

@@ -2,7 +2,7 @@ const models = require("../models");
 
 const browse = (req, res) => {
   models.users
-    .findAll()
+    .findAllUsers()
     .then(([rows]) => {
       res.send(rows);
     })
@@ -14,7 +14,7 @@ const browse = (req, res) => {
 
 const read = (req, res) => {
   models.users
-    .find(req.params.id)
+    .findUser(req.params.id)
     .then(([rows]) => {
       if (rows[0] == null) {
         res.sendStatus(404);
@@ -58,7 +58,7 @@ const add = (req, res) => {
   models.users
     .insert(user)
     .then(([result]) => {
-      res.location(`/items/${result.insertId}`).sendStatus(201);
+      res.location(`/users/${result.insertId}`).sendStatus(201);
     })
     .catch((err) => {
       console.error(err);
