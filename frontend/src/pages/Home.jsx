@@ -1,36 +1,39 @@
-import Counter from "../components/Counter";
-import logo from "../assets/logo.svg";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import "../scss/home.scss";
+import axios from "axios";
+import bannerImg from "../assets/homePage-welcomeSection.jpg";
 
 export default function Home() {
+  const [productsList, setProductsList] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/items`)
+      .then((result) => setProductsList(result.data))
+      .catch((err) => console.error(err));
+  }, []);
   return (
-    <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <p>Hello Vite + React !</p>
-
-      <Counter />
-
-      <p>
-        Edit <code>App.jsx</code> and save to test HMR updates.
-      </p>
-      <p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        {" | "}
-        <a
-          className="App-link"
-          href="https://vitejs.dev/guide/features.html"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Vite Docs
-        </a>
-      </p>
-    </header>
+    <div className="home">
+      <div className="banner">
+        <img src={bannerImg} alt="male in hoodie" />
+        <h1 className="slogan">Wear more of what makes you Comfy</h1>
+      </div>
+      <div className="products">
+        {productsList &&
+          productsList.map((product) => (
+            <Link className="card" key={product.id} to={`/items/${product.id}`}>
+              <img
+                src={`${import.meta.env.VITE_BACKEND_URL}${product.photo}`}
+                alt={product.name}
+              />
+              <div className="info">
+                <h3>{product.name}</h3>
+                <p>{product.price} €</p>
+                <button type="button">Add to card</button>
+              </div>
+            </Link>
+          ))}
+      </div>
+    </div>
   );
 }

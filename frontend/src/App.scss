@@ -1,0 +1,87 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  box-sizing: border-box;
+}
+
+/* font-size: calc(10px + 2vmin); */
+
+.app {
+  min-height: 100vh;
+  margin: 0 auto;
+  // background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+  background-image: linear-gradient(
+    to top,
+    #f699ce,
+    #e59bd9,
+    #d19fe2,
+    #bca2e8,
+    #a5a5ea,
+    #94aded,
+    #86b3ec,
+    #7bb9e9,
+    #7ec4e6,
+    #89cee2,
+    #9ad6de,
+    #aededc
+  );
+
+  // background-image: linear-gradient(
+  //   to right bottom,
+  //   #e5e4de,
+  //   #dee3d9,
+  //   #d2e2d8,
+  //   #c5e2dc,
+  //   #bae0e4,
+  //   #b9e0e6,
+  //   #b8e1e9,
+  //   #b8e1eb,
+  //   #bde5e6,
+  //   #c6e8e2,
+  //   #d0eade,
+  //   #dbecdd
+  // );
+
+  header {
+    width: 100%;
+    max-width: 1920px;
+    height: 70px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 25px;
+    color: whitesmoke;
+    // background-color: rgb(240, 223, 198);
+
+    .logo {
+      text-decoration: none;
+      font-weight: 600;
+      font-size: clamp(1rem, 5vw, 1.2rem);
+      img {
+        width: clamp(35px, 5vw, 40px);
+      }
+    }
+
+    .buttons {
+      width: 40%;
+      max-width: 200px;
+      display: flex;
+      justify-content: space-between;
+
+      img {
+        width: 30px;
+      }
+
+      button {
+        background: none;
+        border: none;
+        width: fit-content;
+        height: fit-content;
+      }
+    }
+  }
+}
