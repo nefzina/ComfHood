@@ -43,6 +43,12 @@ isPublic TINYINT(1) NOT NULL,
 price float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO items(type_id, name, material, stock_quantity, sold_quantity, color,
+description, photo, isPublic, price) VALUES
+(1, "Printed hoodie - skull flower", "100% coton", 25, 0,"yellow","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mollis sodales nibh quis venenatis. Phasellus vel nulla vitae nulla tincidunt.", "/uploads/0b968b3a-f1d6-4e96-990a-590f020708f4-yellow-skull-flower-hoodie.jpg", 1, 25),
+(2,"money heist tshirt", "100% coton", 30, 0,"blue  ","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mollis sodales nibh quis venenatis. Phasellus vel nulla vitae nulla tincidunt.", "/uploads/f3b7707c-b032-4744-8654-f685d3029b2d-tshirt-blue-money-heist.jpg", 1, 27),
+(2,"Dreamer tshirt    ", "100% coton", 25, 0,"white ","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mollis sodales nibh quis venenatis. Phasellus vel nulla vitae nulla tincidunt.", "/uploads/32a139aa-8698-4380-ba6f-ae948017c57b-Dreamer-white-tshirt.jpg   ", 1, 17);
+
  -- carts table --
 CREATE TABLE carts (
   item_id int(11), FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE,

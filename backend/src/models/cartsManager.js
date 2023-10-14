@@ -5,6 +5,13 @@ class CartsManager extends AbstractManager {
     super({ table: "carts" });
   }
 
+  findByUserId(userId) {
+    return this.database.query(
+      `select item_id from ${this.table} where user_id = ?`,
+      [userId]
+    );
+  }
+
   insert(cart) {
     return this.database.query(
       `insert into ${this.table} (item_id, user_id) values (?, ?)`,

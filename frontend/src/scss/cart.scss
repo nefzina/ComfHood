@@ -1,0 +1,26 @@
+.noItems {
+  min-height: calc(100vh - 307px);
+  max-width: 1920px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 1.6rem;
+  font-weight: normal;
+  text-align: center;
+
+  small {
+    display: block;
+    margin-top: 20px;
+    button {
+      background: none;
+      border: none;
+      font-size: 21px;
+      &:hover {
+        text-decoration: underline;
+        color: blue;
+      }
+    }
+  }
+}

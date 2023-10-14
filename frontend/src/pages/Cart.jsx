@@ -1,19 +1,22 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import UserContext from "../contexts/UserContext";
+import "../scss/cart.scss";
 
 export default function Cart() {
-  let user;
   const [cartItems, setCartItems] = useState();
-  if (typeof user !== "undefined") {
+  const { user } = useContext(UserContext);
+
+  if (user) {
     useEffect(() => {
       axios
-        .get(`${import.meta.env.VITE}`)
+        .get(`${import.meta.env.VITE_BACKEND_URL}/cart/{user.id}`)
         .then((result) => setCartItems(result.data))
         .catch((err) => console.error(err));
     }, []);
   }
-  return cartItems ? (
+  return user && cartItems ? (
     cartItems.map((item) => (
       <div className="row">
         <Link to={`/items/${item.id}`}>
@@ -24,6 +27,11 @@ export default function Cart() {
       </div>
     ))
   ) : (
-    <p>Your cart is empty</p>
+    <div className="noItems">
+      No items in your cart
+      <small>
+        Add items or <button type="button">sign in</button>
+      </small>
+    </div>
   );
 }

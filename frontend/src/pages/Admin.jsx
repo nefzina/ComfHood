@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Products from "../components/Products";
 import "../scss/admin.scss";
+import Dashboard from "../components/Dashboard";
+import CustomersList from "../components/CustomersList";
 
 export default function Admin() {
   const [tab, setTab] = useState("dashboard");
@@ -30,7 +32,9 @@ export default function Admin() {
         </button>
       </div>
 
+      {tab === "dashboard" && <Dashboard />}
       {tab === "products" && <Products clothesTypes={clothesTypes} />}
+      {tab === "customers" && <CustomersList />}
     </div>
   );
 }
