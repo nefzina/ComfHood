@@ -36,7 +36,7 @@ router.delete("/users/:id", usersControllers.destroy);
 router.post("/login", validateLogin, authControllers.login);
 
 router.get("/carts/:id", cartsControllers.read);
-router.put("/carts/:id", cartsControllers.edit);
+// router.put("/carts/:id", cartsControllers.edit);
 router.post("/carts", cartsControllers.add);
 router.delete("/carts/:id", cartsControllers.destroy);
 

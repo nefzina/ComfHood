@@ -26,8 +26,11 @@ export default function Home() {
                 src={`${import.meta.env.VITE_BACKEND_URL}${product.photo}`}
                 alt={product.name}
               />
-              <h3>{product.name}</h3>
-              <p>{product.price} €</p>
+              <div className="info">
+                <h3>{product.name}</h3>
+                <p>{product.price} €</p>
+                <button type="button">Add to card</button>
+              </div>
             </Link>
           ))}
       </div>
