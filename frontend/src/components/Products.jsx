@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import AddWindow from "./AddWindow";
 import editPencil from "../assets/edit.png";
+import deleteImg from "../assets/delete.png";
 import "../scss/products.scss";
 
 export default function Products({ clothesTypes }) {
@@ -38,6 +39,8 @@ export default function Products({ clothesTypes }) {
                   <th>Price</th>
                   <th>stock</th>
                   <th>sold</th>
+                  <th>Modify</th>
+                  <th>Delete</th>
                 </tr>
               </thead>
               <tbody>
@@ -58,9 +61,14 @@ export default function Products({ clothesTypes }) {
                         <td>{item.price} €</td>
                         <td>{item.stock_quantity}</td>
                         <td>{item.sold_quantity}</td>
-                        <td>
+                        <td className="btns">
                           <button type="button" className="modifyBtn">
                             <img src={editPencil} alt="modify" />
+                          </button>
+                        </td>
+                        <td className="btns">
+                          <button type="button" className="deleteBtn">
+                            <img src={deleteImg} alt="delete" />
                           </button>
                         </td>
                       </tr>

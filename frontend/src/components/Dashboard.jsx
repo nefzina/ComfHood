@@ -4,7 +4,7 @@ import "../scss/dashboard.scss";
 export default function Dashboard() {
   return (
     <div className="dashboard">
-      <img src={inProgress} alt="not available" />;
+      <img src={inProgress} alt="not available" />
     </div>
   );
 }
