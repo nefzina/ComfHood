@@ -1,17 +1,44 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import "../scss/home.scss";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import bannerImg from "../assets/homePage-welcomeSection.jpg";
+import UserContext from "../contexts/UserContext";
+import "../scss/home.scss";
 
 export default function Home() {
   const [productsList, setProductsList] = useState([]);
+  const { user, cartItems, setCartItems } = useContext(UserContext);
+
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/items`)
       .then((result) => setProductsList(result.data))
       .catch((err) => console.error(err));
   }, []);
+
+  const AddToCart = (e) => {
+    e.preventDefault();
+    if (user)
+      axios
+        .post(`${import.meta.env.VITE_BACKEND_URL}/carts`, {
+          item_id: e.target.value,
+          user_id: user.id,
+        })
+        .then((result) => {
+          if (result.status === 201) {
+            console.info("Done !");
+          } else console.error("Error occured !");
+        })
+        .catch((err) => console.error(err));
+    else {
+      localStorage.setItem(
+        "cartItems",
+        JSON.stringify([...cartItems, parseInt(e.target.value, 10)])
+      );
+      setCartItems([...cartItems, parseInt(e.target.value, 10)]);
+    }
+  };
+
   return (
     <div className="home">
       <div className="banner">
@@ -29,7 +56,13 @@ export default function Home() {
               <div className="info">
                 <h3>{product.name}</h3>
                 <p>{product.price} €</p>
-                <button type="button">Add to card</button>
+                <button
+                  type="button"
+                  value={product.id}
+                  onClick={(e) => AddToCart(e)}
+                >
+                  Add to card
+                </button>
               </div>
             </Link>
           ))}

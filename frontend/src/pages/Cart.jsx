@@ -1,12 +1,11 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
 import "../scss/cart.scss";
 
 export default function Cart() {
-  const [cartItems, setCartItems] = useState();
-  const { user } = useContext(UserContext);
+  const { user, cartItems, setCartItems } = useContext(UserContext);
 
   if (user) {
     useEffect(() => {
@@ -16,9 +15,9 @@ export default function Cart() {
         .catch((err) => console.error(err));
     }, []);
   }
-  return user && cartItems ? (
+  return cartItems ? (
     cartItems.map((item) => (
-      <div className="row">
+      <div className="row" key={item.id}>
         <Link to={`/items/${item.id}`}>
           <img src={item.photo} alt={item.name} />
         </Link>
