@@ -53,4 +53,4 @@ description, photo, isPublic, price) VALUES
 CREATE TABLE carts (
   item_id int(11), FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE,
   user_id int(11) UNSIGNED, FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;²
