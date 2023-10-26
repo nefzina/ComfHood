@@ -6,6 +6,18 @@ CREATE TABLE roles (
 
 INSERT INTO roles (name) VALUES ('user'), ('admin');
 
+-- addresses table --
+CREATE TABLE addresses (
+  id int(5) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  house_number int NOT NULL,
+  street_address varchar(255) NOT NULL,
+  appartment varchar(255) NOT NULL,
+  zip_code int NOT NULL,
+  region varchar(255) NOT NULL,
+  country varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
 -- users table --
 CREATE TABLE users (
   id int(11) UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -13,7 +25,8 @@ CREATE TABLE users (
   lastname varchar(255) NOT NULL,
   email varchar(255) UNIQUE NOT NULL,
   hpassword varchar(255) NOT NULL,
-  role_id int(5) NOT NULL DEFAULT 1, FOREIGN KEY (role_id) REFERENCES roles(id)
+  role_id int(5) NOT NULL DEFAULT 1, FOREIGN KEY (role_id) REFERENCES roles(id),
+  address_id  int(5) NULL, FOREIGN KEY (address_id) REFERENCES addresses(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO users (firstname, lastname, email, hpassword, role_id) VALUES
@@ -45,12 +58,13 @@ price float NOT NULL
 
 INSERT INTO items(type_id, name, material, stock_quantity, sold_quantity, color,
 description, photo, isPublic, price) VALUES
-(1, "Printed hoodie - skull flower", "100% coton", 25, 0,"yellow","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mollis sodales nibh quis venenatis. Phasellus vel nulla vitae nulla tincidunt.", "/uploads/0b968b3a-f1d6-4e96-990a-590f020708f4-yellow-skull-flower-hoodie.jpg", 1, 25),
+(1, "Printed hoodie - skull flower", "100% coton", 25, 0,"yellow","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mollis sodales nibh quis venenatis. Phasellus vel nulla vitae nulla tincidunt.", "/uploads/0b968b3a-f1d6-4e96-990a-590f020708f4-yellow-skull-flower-hoodie.jpg", 1, 25.5),
 (2,"money heist tshirt", "100% coton", 30, 0,"blue  ","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mollis sodales nibh quis venenatis. Phasellus vel nulla vitae nulla tincidunt.", "/uploads/f3b7707c-b032-4744-8654-f685d3029b2d-tshirt-blue-money-heist.jpg", 1, 27),
-(2,"Dreamer tshirt    ", "100% coton", 25, 0,"white ","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mollis sodales nibh quis venenatis. Phasellus vel nulla vitae nulla tincidunt.", "/uploads/32a139aa-8698-4380-ba6f-ae948017c57b-Dreamer-white-tshirt.jpg   ", 1, 17);
+(2,"Dreamer tshirt    ", "100% coton", 25, 0,"white ","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mollis sodales nibh quis venenatis. Phasellus vel nulla vitae nulla tincidunt.", "/uploads/32a139aa-8698-4380-ba6f-ae948017c57b-Dreamer-white-tshirt.jpg   ", 1, 17.99);
 
  -- carts table --
 CREATE TABLE carts (
   item_id int(11), FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE,
-  user_id int(11) UNSIGNED, FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;²
+  user_id int(11) UNSIGNED, FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  quantity int(5) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

@@ -3,17 +3,19 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Admin from "./pages/Admin";
 import AdminProtectedRoutes from "./layouts/AdminProtectedRoutes";
 import Cart from "./pages/Cart";
-import cart from "./assets/trolley.png";
+import Checkout from "./pages/Checkout";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Item from "./pages/Item";
-import koala from "./assets/koala.png";
+import ProtectedRoutes from "./layouts/ProtectedRoutes";
+import SignInUpModal from "./components/SignInUpModal";
+import UserContext from "./contexts/UserContext";
+
+import cart from "./assets/trolley.png";
 import person from "./assets/user.png";
 import shield from "./assets/shield.png";
-import SignInUpModal from "./components/SignInUpModal";
 import logOut from "./assets/logout.png";
 import "./App.scss";
-import UserContext from "./contexts/UserContext";
 
 function App() {
   const [showModal, setShowModal] = useState(false);
@@ -24,10 +26,7 @@ function App() {
       <BrowserRouter>
         <header>
           <Link to="/" className="logo">
-            <i>
-              <img src={koala} alt="koala" />
-              ComfHood
-            </i>
+            <i>ComfHood</i>
           </Link>
 
           <div className="buttons">
@@ -72,9 +71,9 @@ function App() {
           <Route path="/cart" element={<Cart />} />
 
           {/* LOGGED USER ROUTES */}
-          {/* <Route element={<ProtectedRoutes />}> */}
-          {/* <Route path="/userprofile" element={<UserProfile />} /> */}
-          {/* </Route> */}
+          <Route element={<ProtectedRoutes />}>
+            <Route path="/checkout" element={<Checkout />} />
+          </Route>
 
           {/* LOGGED ADMIN ROUTES */}
           <Route element={<AdminProtectedRoutes />}>
