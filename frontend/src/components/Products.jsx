@@ -2,27 +2,48 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import AddWindow from "./AddWindow";
+import ModifyItem from "./ModifyItem";
+
 import editPencil from "../assets/edit.png";
 import deleteImg from "../assets/delete.png";
 import "../scss/products.scss";
 
 export default function Products({ clothesTypes }) {
   const [clothesList, setClothesList] = useState([]);
-  const [isShown, setIsShown] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [itemToModify, setItemToModify] = useState({});
+
+  const [msg, setMgs] = useState("");
 
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/items`)
       .then((result) => setClothesList(result.data))
       .catch((err) => console.error(err));
-  }, [isShown]);
+  }, [showAddModal, msg, itemToModify]);
+
+  const deleteItem = (id) => {
+    axios
+      .delete(`${import.meta.env.VITE_BACKEND_URL}/items/${id}`)
+      .then((result) => {
+        if (result.status === 204) {
+          setMgs("Item deleted successfully !");
+        } else {
+          setMgs("An error has occured !");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        setMgs("An error has occured !");
+      });
+  };
 
   return (
     <div className="products">
       <button
         type="button"
         className="addBtn"
-        onClick={() => setIsShown(!isShown)}
+        onClick={() => setShowAddModal(!showAddModal)}
       >
         Add new article
       </button>
@@ -54,7 +75,7 @@ export default function Products({ clothesTypes }) {
                             src={`${import.meta.env.VITE_BACKEND_URL}${
                               item.photo
                             }`}
-                            alt=""
+                            alt={item.name}
                           />
                         </td>
                         <td>{item.isPublic ? "Yes" : "No"}</td>
@@ -62,12 +83,22 @@ export default function Products({ clothesTypes }) {
                         <td>{item.stock_quantity}</td>
                         <td>{item.sold_quantity}</td>
                         <td className="btns">
-                          <button type="button" className="modifyBtn">
+                          <button
+                            type="button"
+                            className="modifyBtn"
+                            onClick={() => {
+                              setItemToModify(item);
+                            }}
+                          >
                             <img src={editPencil} alt="modify" />
                           </button>
                         </td>
                         <td className="btns">
-                          <button type="button" className="deleteBtn">
+                          <button
+                            type="button"
+                            className="deleteBtn"
+                            onClick={() => deleteItem(item.id)}
+                          >
                             <img src={deleteImg} alt="delete" />
                           </button>
                         </td>
@@ -77,7 +108,20 @@ export default function Products({ clothesTypes }) {
             </table>
           </div>
         ))}
-      {isShown && <AddWindow setIsShown={setIsShown} />}
+      {showAddModal && <AddWindow setShowAddModal={setShowAddModal} />}
+      {Object.keys(itemToModify).length && (
+        <ModifyItem
+          setItemToModify={setItemToModify}
+          itemToModify={itemToModify}
+        />
+      )}
+      <div>
+        {msg === "An error has occured !" ? (
+          <p className="error">{msg}</p>
+        ) : (
+          <p className="success">{msg}</p>
+        )}
+      </div>
     </div>
   );
 }

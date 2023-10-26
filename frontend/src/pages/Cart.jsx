@@ -10,26 +10,78 @@ export default function Cart() {
   if (user) {
     useEffect(() => {
       axios
-        .get(`${import.meta.env.VITE_BACKEND_URL}/cart/{user.id}`)
+        .get(`${import.meta.env.VITE_BACKEND_URL}/cart/${user.id}`)
         .then((result) => setCartItems(result.data))
         .catch((err) => console.error(err));
     }, []);
   }
-  return cartItems ? (
-    cartItems.map((item) => (
-      <div className="row" key={item.id}>
-        <Link to={`/items/${item.id}`}>
-          <img src={item.photo} alt={item.name} />
-        </Link>
-        <Link to={`/items/${item.id}`}>{item.name}</Link>
-        <p>{item.price}</p>
+
+  const handleCheckout = () => {};
+
+  return cartItems.length ? (
+    <>
+      <table className="cartItems">
+        <thead>
+          <tr>
+            <th className="productHeader">Product</th>
+            <th className="quantityHeader desktop">Quantity</th>
+            <th className="priceHeader">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cartItems.map((item) => (
+            <tr key={item.id} className="row">
+              <td className="productData">
+                <Link to={`/items/${item.id}`}>
+                  <img
+                    src={`${import.meta.env.VITE_BACKEND_URL}${item.photo}`}
+                    alt={item.name}
+                  />
+                </Link>
+                <div>
+                  <Link to={`/items/${item.id}`}>{item.name}</Link>
+                  <p>{item.price} €</p>
+                  <p>Color: {item.color}</p>
+                  <p>Size: {item.size}</p>
+                  <div className="mobile">
+                    <button type="button">-</button>
+                    <label htmlFor="">
+                      <input type="number" min="0" />
+                    </label>
+                    <button type="button">+</button>
+                  </div>
+                </div>
+              </td>
+              <td className="desktop">
+                <button type="button">-</button>
+                <label htmlFor="quantity">
+                  <input type="number" min="0" id="quantity" />
+                </label>
+                <button type="button">+</button>
+              </td>
+              <td>tot price</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="payment">
+        <h3>
+          Total price <span>€</span>
+        </h3>
+        <button
+          type="button"
+          className="checkoutBtn"
+          onClick={() => handleCheckout()}
+        >
+          <Link to="/checkout">Validate</Link>
+        </button>
       </div>
-    ))
+    </>
   ) : (
     <div className="noItems">
       No items in your cart
       <small>
-        Add items or <button type="button">sign in</button>
+        Add new items or <button type="button">sign in</button>
       </small>
     </div>
   );

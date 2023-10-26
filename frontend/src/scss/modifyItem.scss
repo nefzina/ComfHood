@@ -1,4 +1,4 @@
-.addModal {
+.modifModal {
   position: fixed;
   width: 98%;
   height: 97vh;
@@ -23,7 +23,7 @@
   box-shadow: 4px 3px 10px 7px rgba(46, 46, 46, 0.19);
 
   .close {
-    margin: 0 0 50px calc(100% - 40px);
+    margin-left: calc(100% - 40px);
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -31,10 +31,11 @@
     cursor: pointer;
     background-color: white;
   }
+
   .form {
     width: 100%;
     max-width: 400px;
-    padding: 20px;
+    padding: 0 20px;
     margin: 0 auto;
 
     label {
@@ -74,6 +75,11 @@
     #public {
       display: inline;
       width: fit-content;
+    }
+
+    img {
+      width: 100%;
+      max-width: 150px;
     }
 
     button[type="submit"] {

@@ -3,22 +3,40 @@ import { useEffect, useRef, useState } from "react";
 import "../scss/modifyItem.scss";
 import PropTypes from "prop-types";
 
-export default function AddWindow({ setIsShown }) {
+export default function ModifyItem({ setItemToModify, itemToModify }) {
   const [clothesTypes, setClothesTypes] = useState([]);
   const inputRef = useRef(null);
 
   const [typeId, setTypeId] = useState(0);
   const [name, setName] = useState("");
   const [material, setMaterial] = useState("");
-  const [quantity, setQuantity] = useState(0);
+  const [stockQuantity, setStockQuantity] = useState(0);
   const [color, setColor] = useState("");
   const [description, setDescription] = useState("");
+  const [photo, setPhoto] = useState("");
   const [isPublic, setIsPublic] = useState(false);
   const [price, setPrice] = useState(0.0);
 
   const [msg, setMsg] = useState("");
 
-  const handleSubmission = (e) => {
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/items/${itemToModify.id}`)
+      .then((result) => {
+        setTypeId(result.data.type_id);
+        setName(result.data.name);
+        setMaterial(result.data.material);
+        setStockQuantity(result.data.stock_quantity);
+        setColor(result.data.color);
+        setDescription(result.data.description);
+        setPhoto(result.data.photo);
+        setIsPublic(result.data.isPublic);
+        setPrice(result.data.price);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
+  const handleModification = (e) => {
     e.preventDefault();
     if (inputRef.current.files[0]) {
       // POST file
@@ -30,54 +48,62 @@ export default function AddWindow({ setIsShown }) {
           if (result.status === 201) {
             // post all input data after file upload
             axios
-              .post(`${import.meta.env.VITE_BACKEND_URL}/items`, {
-                typeId,
-                name,
-                material,
-                quantity,
-                color,
-                description,
-                photo: `/uploads/${result.data}`,
-                isPublic,
-                price,
-              })
+              .put(
+                `${import.meta.env.VITE_BACKEND_URL}/items/${itemToModify.id}`,
+                {
+                  typeId,
+                  name,
+                  material,
+                  stockQuantity,
+                  color,
+                  description,
+                  photo: `/uploads/${result.data}`,
+                  isPublic,
+                  price,
+                }
+              )
               .then((resp) => {
-                if (resp.status === 201) setMsg("New article was added !");
+                if (resp.status === 201) {
+                  setMsg("Article modified successfully !");
+                  setTimeout(() => {
+                    setItemToModify({});
+                  }, 4000);
+                }
               })
               .catch((err) => console.error(err));
           }
         })
-        .catch((err) => setMsg(err));
+        .catch((err) => {
+          setMsg("An error has occured !");
+          console.error(err);
+        });
     } else {
       // post all input data without file upload
       axios
-        .post(`${import.meta.env.VITE_BACKEND_URL}/clothes`, {
+        .put(`${import.meta.env.VITE_BACKEND_URL}/items/${itemToModify.id}`, {
           typeId,
           name,
           material,
-          quantity,
+          stockQuantity,
           color,
           description,
+          photo,
           isPublic,
           price,
         })
         .then((resp) => {
-          if (resp.status === 201) setMsg("New article was added !");
+          if (resp.status === 201) {
+            setMsg("Article modified successfully !");
+            setTimeout(() => {
+              setItemToModify({});
+            }, 4000);
+          }
         })
-        .catch((err) => setMsg(err));
+        .catch((err) => {
+          setMsg("An error has occured !");
+          console.error(err);
+        });
     }
-
-    setTimeout(() => {
-      // inputRef.current = null;
-      setTypeId(0);
-      setName("");
-      setMaterial("");
-      setQuantity(0);
-      setColor("");
-      setDescription("");
-      setIsPublic(false);
-      setPrice(0.0);
-    }, 500);
 
     setTimeout(() => {
       setMsg("");
@@ -92,23 +118,28 @@ export default function AddWindow({ setIsShown }) {
   }, []);
 
   return (
-    <div className="addModal">
-      <button type="button" className="close" onClick={() => setIsShown(false)}>
+    <div className="modifModal">
+      <button
+        type="button"
+        className="close"
+        onClick={() => setItemToModify({})}
+      >
         x
       </button>
       <form
         className="form"
         encType="multipart/form-data"
-        onSubmit={handleSubmission}
+        onSubmit={handleModification}
       >
         <label htmlFor="type">Type</label>
         <select
           type="text"
           id="type"
-          value={typeId}
+          defaultValue={typeId}
+          // clothesTypes?.find((p) => p.id === typeId)?.type
           onChange={(e) => setTypeId(e.target.value)}
         >
-          <option value={0} key={0}>
+          <option value={0} key={0} disabled>
             --Select--
           </option>
           {clothesTypes &&
@@ -135,12 +166,12 @@ export default function AddWindow({ setIsShown }) {
           onChange={(e) => setMaterial(e.target.value)}
         />
 
-        <label htmlFor="quantity">Quantity</label>
+        <label htmlFor="quantity">Stock quantity</label>
         <input
           type="number"
           id="quantity"
-          value={quantity}
-          onChange={(e) => setQuantity(e.target.value)}
+          value={stockQuantity}
+          onChange={(e) => setStockQuantity(e.target.value)}
         />
 
         <label htmlFor="color">Color</label>
@@ -170,7 +201,9 @@ export default function AddWindow({ setIsShown }) {
           onChange={(e) => setPrice(e.target.value)}
         />
 
-        <label htmlFor="photo">Upload photos</label>
+        <img src={`${import.meta.env.VITE_BACKEND_URL}${photo}`} alt={name} />
+
+        <label htmlFor="photo">Change photo</label>
         <input type="file" id="photo" name="photo" ref={inputRef} />
 
         <label htmlFor="public">Article is public</label>
@@ -178,17 +211,37 @@ export default function AddWindow({ setIsShown }) {
           type="checkbox"
           id="public"
           value={isPublic}
-          onClick={() => setIsPublic(!isPublic)}
+          checked={isPublic}
+          onChange={() => setIsPublic(!isPublic)}
         />
 
-        <button type="submit">Add new item</button>
+        <button type="submit">Validate</button>
       </form>
 
-      <p className="msg">{msg}</p>
+      <div>
+        {msg === "An error has occured !" ? (
+          <p className="error">{msg}</p>
+        ) : (
+          <p className="success">{msg}</p>
+        )}
+      </div>
     </div>
   );
 }
 
-AddWindow.propTypes = {
-  setIsShown: PropTypes.func.isRequired,
+ModifyItem.propTypes = {
+  setItemToModify: PropTypes.func.isRequired,
+  itemToModify: PropTypes.shape({
+    id: PropTypes.number,
+    type_id: PropTypes.number,
+    name: PropTypes.string,
+    material: PropTypes.string,
+    sold_quantity: PropTypes.number,
+    stock_quantity: PropTypes.number,
+    color: PropTypes.string,
+    description: PropTypes.string,
+    photo: PropTypes.string,
+    isPublic: PropTypes.bool,
+    price: PropTypes.number,
+  }).isRequired,
 };

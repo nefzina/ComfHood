@@ -16,7 +16,7 @@ export default function Home() {
       .catch((err) => console.error(err));
   }, []);
 
-  const AddToCart = (e) => {
+  const AddToCart = (e, newProduct) => {
     e.preventDefault();
     if (user)
       axios
@@ -33,9 +33,9 @@ export default function Home() {
     else {
       localStorage.setItem(
         "cartItems",
-        JSON.stringify([...cartItems, parseInt(e.target.value, 10)])
+        JSON.stringify([...cartItems, newProduct])
       );
-      setCartItems([...cartItems, parseInt(e.target.value, 10)]);
+      setCartItems([...cartItems, newProduct]);
     }
   };
 
@@ -59,7 +59,7 @@ export default function Home() {
                 <button
                   type="button"
                   value={product.id}
-                  onClick={(e) => AddToCart(e)}
+                  onClick={(e) => AddToCart(e, product)}
                 >
                   Add to card
                 </button>

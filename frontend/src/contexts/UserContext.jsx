@@ -13,11 +13,6 @@ export function ContextProvider({ children }) {
     [user, setUser, cartItems, setCartItems]
   );
 
-  // const contextCartItems = useMemo(
-  //   () => ({ cartItems, setCartItems }),
-  //   [cartItems, setCartItems]
-  // );
-
   return (
     <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
   );

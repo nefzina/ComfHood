@@ -1,0 +1,68 @@
+.checkout {
+  padding: 15px;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 650px;
+
+  .contact,
+  .addressForm {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .addressForm {
+    margin-top: 30px;
+  }
+
+  fieldset {
+    display: flex;
+    flex-direction: column;
+    position: static;
+    border: none;
+  }
+
+  fieldset label {
+    font-size: clamp(0.8rem, 3vw, 1.1rem);
+    color: #818cf8;
+    font-weight: 600;
+    position: relative;
+    top: 0.5rem;
+    margin: 0 0 0 7px;
+    padding: 0 3px;
+    background: #e8e8e8;
+    width: fit-content;
+  }
+
+  fieldset input {
+    padding: 11px 10px;
+    font-size: 0.75rem;
+    border: 2px #818cf8 solid;
+    border-radius: 5px;
+    background: #e8e8e8;
+  }
+
+  fieldset input:focus {
+    outline: none;
+  }
+}
+
+@media screen and (min-width: 700px) {
+  .contact,
+  .addressForm {
+    max-width: 650px;
+  }
+
+  .addressForm {
+    .line1 {
+      display: flex;
+      justify-content: space-between;
+
+      fieldset:first-child {
+        width: 60px;
+      }
+    }
+  }
+}

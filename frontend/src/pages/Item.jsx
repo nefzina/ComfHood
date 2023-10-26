@@ -33,11 +33,8 @@ export default function Item() {
         })
         .catch((err) => console.error(err));
     } else {
-      localStorage.setItem(
-        "cartItems",
-        JSON.stringify([...cartItems, item.id])
-      );
-      setCartItems([...cartItems, item.id]);
+      localStorage.setItem("cartItems", JSON.stringify([...cartItems, item]));
+      setCartItems([...cartItems, item]);
     }
   };
 
