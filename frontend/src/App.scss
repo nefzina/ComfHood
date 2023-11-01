@@ -9,6 +9,15 @@
 
 /* font-size: calc(10px + 2vmin); */
 
+:root {
+  --black: #1e1e1e;
+  --violet: #6161db;
+  --navyBlue: #1d1d1f;
+  --pink: #e546d8;
+  --hover: #dd63c9;
+  --fontFamily: "Roboto", sans-serif;
+}
+
 .app {
   min-height: 100vh;
   margin: 0 auto;

@@ -13,7 +13,7 @@ class ItemsManager extends AbstractManager {
           item.typeId,
           item.name,
           item.material,
-          item.quantity,
+          item.stockQuantity,
           item.color,
           item.description,
           item.photo,
@@ -28,7 +28,7 @@ class ItemsManager extends AbstractManager {
         item.typeId,
         item.name,
         item.material,
-        item.quantity,
+        item.stockQuantity,
         item.color,
         item.description,
         item.isPublic,
@@ -39,8 +39,19 @@ class ItemsManager extends AbstractManager {
 
   update(item) {
     return this.database.query(
-      `update ${this.table} set title = ? where id = ?`,
-      [item.title, item.id]
+      `update ${this.table} set type_id = ?, name = ?, material = ?, stock_quantity = ?, color = ?, description = ?, photo = ?, isPublic = ?, price = ? where id = ?`,
+      [
+        item.typeId,
+        item.name,
+        item.material,
+        item.stockQuantity,
+        item.color,
+        item.description,
+        item.photo,
+        item.isPublic,
+        item.price,
+        item.id,
+      ]
     );
   }
 }

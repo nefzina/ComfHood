@@ -1,14 +1,16 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../scss/item.scss";
 import caret from "../assets/caret.png";
+import UserContext from "../contexts/UserContext";
 
 export default function Item() {
   const [item, setItem] = useState({});
   const { id } = useParams();
 
   const [showDescription, setshowDescription] = useState(false);
+  const { cartItems, setCartItems, user } = useContext(UserContext);
 
   useEffect(() => {
     axios
@@ -16,6 +18,25 @@ export default function Item() {
       .then((result) => setItem(result.data))
       .catch((err) => console.error(err));
   }, []);
+
+  const AddToCart = () => {
+    if (user) {
+      axios
+        .post(`${import.meta.env.VITE_BACKEND_URL}/carts`, {
+          item_id: item.id,
+          user_id: user.id,
+        })
+        .then((result) => {
+          if (result.status === 201) {
+            console.info("Done !");
+          } else console.error("Error occured !");
+        })
+        .catch((err) => console.error(err));
+    } else {
+      localStorage.setItem("cartItems", JSON.stringify([...cartItems, item]));
+      setCartItems([...cartItems, item]);
+    }
+  };
 
   return (
     item && (
@@ -56,7 +77,12 @@ export default function Item() {
             )}
           </button>
 
-          <button type="button" className="addToCart">
+          <button
+            type="button"
+            className="addToCart"
+            value={item.id}
+            onClick={(e) => AddToCart(e)}
+          >
             Add to cart
           </button>
         </div>

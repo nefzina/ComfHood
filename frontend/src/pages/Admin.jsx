@@ -4,9 +4,12 @@ import Products from "../components/Products";
 import "../scss/admin.scss";
 import Dashboard from "../components/Dashboard";
 import CustomersList from "../components/CustomersList";
+import returnImg from "../assets/back.png";
+import openImg from "../assets/open-caret.png";
 
 export default function Admin() {
   const [tab, setTab] = useState("dashboard");
+  const [showAdminNavBar, setShowAdminNavBar] = useState(false);
   const [clothesTypes, setClothesTypes] = useState([]);
 
   useEffect(() => {
@@ -18,7 +21,14 @@ export default function Admin() {
 
   return (
     <div className="admin">
-      <div className="AdminNavBar">
+      <div className={showAdminNavBar ? "showAdminNavBar" : "hideAdminNavBar"}>
+        <button
+          type="button"
+          className="returnBtn"
+          onClick={() => setShowAdminNavBar(false)}
+        >
+          <img src={returnImg} alt="return arrow" />
+        </button>
         <button type="button" onClick={() => setTab("dashboard")}>
           Dashboard
         </button>
@@ -31,6 +41,14 @@ export default function Admin() {
           Customers
         </button>
       </div>
+
+      <button
+        type="button"
+        className="openBtn"
+        onClick={() => setShowAdminNavBar(true)}
+      >
+        <img src={openImg} alt="open menu" />
+      </button>
 
       {tab === "dashboard" && <Dashboard />}
       {tab === "products" && <Products clothesTypes={clothesTypes} />}

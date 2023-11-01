@@ -36,6 +36,7 @@
 
         .photos {
           width: 150px;
+          min-width: 120px;
 
           img {
             width: 100%;
@@ -45,7 +46,8 @@
         td {
           text-align: center;
 
-          .modifyBtn {
+          .modifyBtn,
+          .deleteBtn {
             width: 25px;
             background-color: transparent;
             border: none;
@@ -60,6 +62,10 @@
               transform: scale(1.2);
             }
           }
+        }
+
+        .btns {
+          width: 100px;
         }
       }
     }

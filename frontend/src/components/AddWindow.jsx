@@ -47,7 +47,10 @@ export default function AddWindow({ setIsShown }) {
               .catch((err) => console.error(err));
           }
         })
-        .catch((err) => setMsg(err));
+        .catch((err) => {
+          setMsg("An error has occured !");
+          console.error(err);
+        });
     } else {
       // post all input data without file upload
       axios
@@ -64,7 +67,10 @@ export default function AddWindow({ setIsShown }) {
         .then((resp) => {
           if (resp.status === 201) setMsg("New article was added !");
         })
-        .catch((err) => setMsg(err));
+        .catch((err) => {
+          setMsg("An error has occured !");
+          console.error(err);
+        });
     }
 
     setTimeout(() => {
@@ -184,7 +190,13 @@ export default function AddWindow({ setIsShown }) {
         <button type="submit">Add new item</button>
       </form>
 
-      <p className="msg">{msg}</p>
+      <div>
+        {msg === "An error has occured !" ? (
+          <p className="error">{msg}</p>
+        ) : (
+          <p className="success">{msg}</p>
+        )}
+      </div>
     </div>
   );
 }

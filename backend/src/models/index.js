@@ -3,7 +3,6 @@ require("dotenv").config();
 const mysql = require("mysql2/promise");
 
 // create a connection pool to the database
-
 const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME } = process.env;
 
 const pool = mysql.createPool({
@@ -29,10 +28,21 @@ pool.getConnection().catch(() => {
 
 const models = {};
 
+const AddressesManager = require("./AddressesManager");
+const AuthManager = require("./AuthManager");
+const CartsManager = require("./CartsManager");
 const ItemsManager = require("./ItemsManager");
 const TypesManager = require("./TypesManager");
 const UsersManager = require("./UsersManager");
-const AuthManager = require("./AuthManager");
+
+models.addresses = new AddressesManager();
+models.addresses.setDatabase(pool);
+
+models.auth = new AuthManager();
+models.auth.setDatabase(pool);
+
+models.carts = new CartsManager();
+models.carts.setDatabase(pool);
 
 models.items = new ItemsManager();
 models.items.setDatabase(pool);
@@ -42,9 +52,6 @@ models.types.setDatabase(pool);
 
 models.users = new UsersManager();
 models.users.setDatabase(pool);
-
-models.auth = new AuthManager();
-models.auth.setDatabase(pool);
 
 // bonus: use a proxy to personalize error message,
 // when asking for a non existing model
