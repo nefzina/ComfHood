@@ -11,7 +11,7 @@ CREATE TABLE addresses (
   id int(5) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   house_number int NOT NULL,
   street_address varchar(255) NOT NULL,
-  appartment varchar(255) NOT NULL,
+  appartment varchar(255) NULL,
   zip_code int NOT NULL,
   region varchar(255) NOT NULL,
   country varchar(255) NOT NULL

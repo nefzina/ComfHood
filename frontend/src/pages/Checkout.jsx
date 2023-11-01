@@ -1,5 +1,6 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../scss/checkout.scss";
+import axios from "axios";
 import UserContext from "../contexts/UserContext";
 
 export default function Checkout() {
@@ -10,6 +11,21 @@ export default function Checkout() {
   const [region, setRegion] = useState("");
   const [country, setCountry] = useState("France");
   const { user } = useContext(UserContext);
+
+  if (user.address_id)
+    useEffect(() => {
+      axios
+        .get(`${import.meta.env.VITE_BACKEND_URL}/addresses/${user.address_id}`)
+        .then((result) => {
+          setHouseNb(result.data.house_number);
+          setStreet(result.data.street_address);
+          setAppart(result.data.appartment);
+          setZipCode(result.data.zip_code);
+          setRegion(result.data.region);
+          setCountry(result.data.country);
+        })
+        .catch((err) => console.error(err));
+    }, []);
 
   const payment = () => {};
 
