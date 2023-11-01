@@ -131,7 +131,30 @@ export default function Profile() {
         .catch((err) => console.error(err));
   };
 
-  const deleteAccount = () => {};
+  const deleteAccount = () => {
+    axios
+      .delete(`${import.meta.env.VITE_BACKEND_URL}/users/${user.id}`)
+      .then((result) => {
+        if (result.status === 204) {
+          if (user.address_id) {
+            axios
+              .delete(
+                `${import.meta.env.VITE_BACKEND_URL}/addresses/${
+                  user.address_id
+                }`
+              )
+              .then((res) => {
+                if (res.status === 204) console.info(res);
+              })
+              .catch((err) => console.error(err));
+          }
+          setTimeout(() => {
+            setUser(null);
+          }, 3000);
+        }
+      })
+      .catch((err) => console.error(err));
+  };
 
   return (
     <div className="profilePage">
