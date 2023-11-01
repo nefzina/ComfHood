@@ -1,0 +1,85 @@
+.profilePage {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+
+  .actualFirstname,
+  .actualLastname,
+  .actualPassword,
+  .actualAddress {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .newFirstname,
+  .newLastname,
+  .newPassword {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .firstname,
+  .lastname,
+  .password,
+  .address {
+    height: 150px;
+    border-top: 1px solid;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .address {
+    border-bottom: 1px solid;
+    height: fit-content;
+    min-height: fit-content;
+  }
+  .addressForm {
+    height: 300px;
+    label {
+      font-weight: 400;
+    }
+    #houseNB {
+      width: 50px;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type="number"] {
+      appearance: textfield;
+    }
+  }
+
+  .label,
+  .addressForm {
+    font-weight: 600;
+  }
+
+  button {
+    padding: 5px 10px;
+    width: 68px;
+    height: 31px;
+  }
+  .deleteBtn {
+    margin-top: 30px;
+    width: 160px;
+    height: 50px;
+    background-color: var(--hover);
+    color: white;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    font-size: 1rem;
+    border: none;
+
+    &:hover {
+      background-color: white;
+      color: var(--hover);
+    }
+  }
+}

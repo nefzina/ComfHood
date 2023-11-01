@@ -16,6 +16,7 @@ import person from "./assets/user.png";
 import shield from "./assets/shield.png";
 import logOut from "./assets/logout.png";
 import "./App.scss";
+import Profile from "./pages/Profile";
 
 function App() {
   const [showModal, setShowModal] = useState(false);
@@ -26,7 +27,7 @@ function App() {
       <BrowserRouter>
         <header>
           <Link to="/" className="logo">
-            <i>ComfHood</i>
+            <i>COMFHOOD</i>
           </Link>
 
           <div className="buttons">
@@ -47,13 +48,16 @@ function App() {
             )}
 
             {user && (
-              <button
-                type="button"
-                title="Log out"
-                onClick={() => setUser(null)}
-              >
-                <img src={logOut} alt="sign out" />
-              </button>
+              <>
+                <button
+                  type="button"
+                  title="Log out"
+                  onClick={() => setUser(null)}
+                >
+                  <img src={logOut} alt="sign out" />
+                </button>
+                <Link to="/profile">Profile</Link>
+              </>
             )}
 
             <Link to="/cart">
@@ -73,6 +77,7 @@ function App() {
           {/* LOGGED USER ROUTES */}
           <Route element={<ProtectedRoutes />}>
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
 
           {/* LOGGED ADMIN ROUTES */}

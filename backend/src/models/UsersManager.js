@@ -7,7 +7,7 @@ class UsersManager extends AbstractManager {
 
   findUser(id) {
     return this.database.query(
-      `select firstname, lastname, email from ${this.table} where id = ?`,
+      `select firstname, lastname, email, address_id from ${this.table} where id = ?`,
       [id]
     );
   }
@@ -25,10 +25,31 @@ class UsersManager extends AbstractManager {
     );
   }
 
-  update(user) {
+  updateFirstname(firstname, id) {
     return this.database.query(
-      `update ${this.table} set firstname = ?, lastname = ?, hpassword = ? where id = ?`,
-      [user.firstname, user.lastname, user.hpassword, user.id]
+      `update ${this.table} set firstname = ? where id = ?`,
+      [firstname, id]
+    );
+  }
+
+  updateLastname(lastname, id) {
+    return this.database.query(
+      `update ${this.table} set lastname = ? where id = ?`,
+      [lastname, id]
+    );
+  }
+
+  updatePassword(hpassword, id) {
+    return this.database.query(
+      `update ${this.table} set hpassword = ? where id = ?`,
+      [hpassword, id]
+    );
+  }
+
+  updateAddress(addressId, id) {
+    return this.database.query(
+      `update ${this.table} set address_id = ? where id = ?`,
+      [addressId, id]
     );
   }
 }
