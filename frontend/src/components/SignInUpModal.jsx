@@ -12,7 +12,7 @@ export default function SignInUpModal({ setShowModal }) {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
 
-  const { setUser } = useContext(UserContext);
+  const { user, setUser, cartItems } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleSignIn = (e) => {
@@ -33,6 +33,17 @@ export default function SignInUpModal({ setShowModal }) {
 
           setTimeout(() => {
             setShowModal(false);
+            if (cartItems.length) {
+              cartItems.forEach((element) => {
+                Axios.post(`${import.meta.env.VITE_BACKEND_URL}/carts`, {
+                  user_id: user.id,
+                  item_id: element.id,
+                  quantity: element.quantity,
+                })
+                  .then((result) => console.info(result))
+                  .catch((err) => console.error(err));
+              });
+            }
             navigate("/");
           }, 400);
         }

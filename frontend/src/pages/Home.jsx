@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import bannerImg from "../assets/homePage-welcomeSection.jpg";
 import UserContext from "../contexts/UserContext";
 import "../scss/home.scss";
+import changeQuantity from "../services/changeQuantity";
 
 export default function Home() {
   const [productsList, setProductsList] = useState([]);
@@ -16,7 +17,7 @@ export default function Home() {
       .catch((err) => console.error(err));
   }, []);
 
-  const AddToCart = (e, newProduct) => {
+  const AddToCart = (e, newProductId) => {
     e.preventDefault();
     if (user)
       axios
@@ -30,12 +31,21 @@ export default function Home() {
           } else console.error("Error occured !");
         })
         .catch((err) => console.error(err));
-    else {
+    else if (
+      !localStorage.getItem("cartItems") ||
+      !JSON.parse(localStorage.getItem("cartItems"))?.filter(
+        (element) => element.id === newProductId
+      ).length
+    ) {
       localStorage.setItem(
         "cartItems",
-        JSON.stringify([...cartItems, newProduct])
+        JSON.stringify([...cartItems, { id: newProductId, quantity: 1 }])
       );
-      setCartItems([...cartItems, newProduct]);
+      setCartItems([...cartItems, { id: newProductId, quantity: 1 }]);
+    } else {
+      const data = JSON.parse(localStorage.getItem("cartItems"));
+      const newData = changeQuantity(data, newProductId, "add");
+      localStorage.setItem("cartItems", JSON.stringify(newData));
     }
   };
 
@@ -59,7 +69,7 @@ export default function Home() {
                 <button
                   type="button"
                   value={product.id}
-                  onClick={(e) => AddToCart(e, product)}
+                  onClick={(e) => AddToCart(e, product.id)}
                 >
                   Add to card
                 </button>
