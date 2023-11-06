@@ -1,10 +1,11 @@
 import axios from "axios";
-import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { useContext, useEffect } from "react";
 import UserContext from "../contexts/UserContext";
 import "../scss/cart.scss";
 
-export default function Cart() {
+export default function Cart({ setTab, setShowModal }) {
   const { user, cartItems, setCartItems } = useContext(UserContext);
 
   if (user) {
@@ -54,9 +55,7 @@ export default function Cart() {
               </td>
               <td className="desktop">
                 <button type="button">-</button>
-                <label htmlFor="quantity">
-                  <input type="number" min="0" id="quantity" />
-                </label>
+                <p className="quantity">{item.quantity}</p>
                 <button type="button">+</button>
               </td>
               <td>tot price</td>
@@ -81,8 +80,27 @@ export default function Cart() {
     <div className="noItems">
       No items in your cart
       <small>
-        Add new items or <button type="button">sign in</button>
+        Add new items
+        {!user && (
+          <>
+            <span> or </span>
+            <button
+              type="button"
+              onClick={() => {
+                setTab(1);
+                setShowModal(true);
+              }}
+            >
+              sign in
+            </button>
+          </>
+        )}
       </small>
     </div>
   );
 }
+
+Cart.propTypes = {
+  setShowModal: PropTypes.func.isRequired,
+  setTab: PropTypes.func.isRequired,
+};

@@ -72,10 +72,11 @@ router.delete("/users/:id", usersControllers.destroy);
 
 router.post("/login", validateEmail, validatePassword, authControllers.login);
 
-router.get("/carts/:id", cartsControllers.read);
-// router.put("/carts/:id", cartsControllers.edit);
+router.get("/carts/:id", cartsControllers.readByUserId);
+router.get("/carts/:userId/:itemId", cartsControllers.readByUserItemIds);
 router.post("/carts", cartsControllers.add);
-router.delete("/carts/:id", cartsControllers.destroy);
+router.put("/carts", cartsControllers.edit);
+// router.delete("/carts", cartsControllers.destroy);
 
 router.get("/addresses/:id", addressesControllers.read);
 router.post("/addresses", addressesControllers.add);

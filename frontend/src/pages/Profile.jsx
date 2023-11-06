@@ -158,6 +158,7 @@ export default function Profile() {
 
   return (
     <div className="profilePage">
+      <h2 className="title">Profile details</h2>
       <div className="firstname">
         {(!infoToDisplay || container !== 1) && (
           <div className="actualFirstname">
