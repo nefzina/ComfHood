@@ -7,6 +7,9 @@
     "fix": "prettier --write . && eslint --fix --ext .jsx ."
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.16",
     "@vitejs/plugin-react": "^3.0.1",
     "axios": "^1.5.0",
     "prop-types": "^15.8.1",
@@ -14,6 +17,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
     "sass": "^1.66.1",
+    "sweetalert": "^2.1.2",
     "vite": "^4.0.4"
   },
   "devDependencies": {

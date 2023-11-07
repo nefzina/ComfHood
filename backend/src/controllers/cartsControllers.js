@@ -1,8 +1,9 @@
 const models = require("../models");
 
-const browse = (req, res) => {
+const readByUserId = (req, res) => {
+  const userId = parseInt(req.params.id, 10);
   models.carts
-    .findAll()
+    .findByUserId(userId)
     .then(([rows]) => {
       res.send(rows);
     })
@@ -12,31 +13,29 @@ const browse = (req, res) => {
     });
 };
 
-const read = (req, res) => {
+const readByUserItemIds = (req, res) => {
+  const userId = parseInt(req.params.userId, 10);
+  const itemId = parseInt(req.params.itemId, 10);
+
   models.carts
-    .findByUserId(req.params.id)
+    .findByUserItemIds(userId, itemId)
     .then(([rows]) => {
-      if (rows[0] == null) {
-        res.sendStatus(404);
+      if (!rows[0]) {
+        res.send({ message: "not found" });
       } else {
         res.send(rows[0]);
       }
     })
     .catch((err) => {
-      console.error(err);
-      res.sendStatus(500);
+      res.status(500).send(err);
     });
 };
 
 const edit = (req, res) => {
-  const cart = req.body;
-
-  // TODO validations (length, format...)
-
-  cart.id = parseInt(req.params.id, 10);
+  const data = req.body;
 
   models.carts
-    .update(cart)
+    .update(data)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404);
@@ -51,12 +50,10 @@ const edit = (req, res) => {
 };
 
 const add = (req, res) => {
-  const cart = req.body;
-
-  // TODO validations (length, format...)
+  const data = req.body;
 
   models.carts
-    .insert(cart)
+    .insert(data)
     .then(([result]) => {
       res.location(`/carts/${result.insertId}`).sendStatus(201);
     })
@@ -66,26 +63,26 @@ const add = (req, res) => {
     });
 };
 
-const destroy = (req, res) => {
-  models.carts
-    .deleteItem(req.params.id)
-    .then(([result]) => {
-      if (result.affectedRows === 0) {
-        res.sendStatus(404);
-      } else {
-        res.sendStatus(204);
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.sendStatus(500);
-    });
-};
+// const destroy = (req, res) => {
+//   models.carts
+//     .deleteItem(req.params.id)
+//     .then(([result]) => {
+//       if (result.affectedRows === 0) {
+//         res.sendStatus(404);
+//       } else {
+//         res.sendStatus(204);
+//       }
+//     })
+//     .catch((err) => {
+//       console.error(err);
+//       res.sendStatus(500);
+//     });
+// };
 
 module.exports = {
-  browse,
-  read,
+  readByUserId,
+  readByUserItemIds,
   edit,
   add,
-  destroy,
+  // destroy,
 };

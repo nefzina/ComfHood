@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import "../scss/checkout.scss";
 import axios from "axios";
+import swal from "sweetalert";
 import UserContext from "../contexts/UserContext";
 
 export default function Checkout() {
@@ -11,6 +12,8 @@ export default function Checkout() {
   const [region, setRegion] = useState("");
   const [country, setCountry] = useState("France");
   const { user } = useContext(UserContext);
+
+  const [alert, setAlert] = useState(false);
 
   if (user.address_id)
     useEffect(() => {
@@ -27,8 +30,6 @@ export default function Checkout() {
         .catch((err) => console.error(err));
     }, []);
 
-  const payment = () => {};
-
   return (
     <div className="checkout">
       <div className="contact">
@@ -39,7 +40,7 @@ export default function Checkout() {
         </fieldset>
       </div>
 
-      <form className="addressForm" onSubmit={() => payment()}>
+      <form className="addressForm" onSubmit={() => setAlert(true)}>
         Address
         <div className="line1">
           <fieldset>
@@ -101,6 +102,12 @@ export default function Checkout() {
         </fieldset>
         <button type="submit">Place order</button>
       </form>
+
+      {alert &&
+        swal({
+          text: "Order successfully placed",
+          icon: "success",
+        })}
     </div>
   );
 }

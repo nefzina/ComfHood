@@ -20,7 +20,6 @@ const login = (req, res) => {
             else {
               const currentUser = user;
               delete currentUser.hpassword;
-
               res.status(200).send(currentUser);
             }
           })

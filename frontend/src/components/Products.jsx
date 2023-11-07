@@ -55,7 +55,7 @@ export default function Products({ clothesTypes }) {
             <table>
               <thead>
                 <tr>
-                  <th> </th>
+                  <th>-</th>
                   <th>Displayed</th>
                   <th>Price</th>
                   <th>stock</th>

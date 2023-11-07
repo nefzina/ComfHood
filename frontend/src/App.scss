@@ -10,87 +10,102 @@
 /* font-size: calc(10px + 2vmin); */
 
 :root {
+  --bg-color: #f0ece8;
   --black: #1e1e1e;
   --violet: #6161db;
   --navyBlue: #1d1d1f;
+  --dark-blue: #19647e;
+  --orange: #b04623;
+  --light-brown: #926e62;
+  --dark-brown: #704232;
   --pink: #e546d8;
-  --hover: #dd63c9;
+  --hover: #ddc0a4;
   --fontFamily: "Roboto", sans-serif;
 }
 
 .app {
   min-height: 100vh;
   margin: 0 auto;
-  // background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
-  background-image: linear-gradient(
-    to top,
-    #f699ce,
-    #e59bd9,
-    #d19fe2,
-    #bca2e8,
-    #a5a5ea,
-    #94aded,
-    #86b3ec,
-    #7bb9e9,
-    #7ec4e6,
-    #89cee2,
-    #9ad6de,
-    #aededc
-  );
-
+  background-color: var(--bg-color);
   // background-image: linear-gradient(
-  //   to right bottom,
-  //   #e5e4de,
-  //   #dee3d9,
-  //   #d2e2d8,
-  //   #c5e2dc,
-  //   #bae0e4,
-  //   #b9e0e6,
-  //   #b8e1e9,
-  //   #b8e1eb,
-  //   #bde5e6,
-  //   #c6e8e2,
-  //   #d0eade,
-  //   #dbecdd
+  //   to top,
+  //   // #EAB1CB, //intruder
+  //   #f699ce,
+  //   #e59bd9,
+  //   #d19fe2,
+  //   #bca2e8,
+  //   #a5a5ea,
+  //   #94aded,
+  //   #86b3ec,
+  //   #7bb9e9,
+  //   #7ec4e6,
+  //   #89cee2,
+  //   #9ad6de,
+  //   #aededc,
   // );
 
   header {
     width: 100%;
     max-width: 1920px;
-    height: 70px;
+    height: 50px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 25px;
-    color: whitesmoke;
-    // background-color: rgb(240, 223, 198);
+    padding: 8px 10px;
 
     .logo {
       text-decoration: none;
-      font-weight: 600;
-      font-size: clamp(1rem, 5vw, 1.2rem);
-      img {
-        width: clamp(35px, 5vw, 40px);
+      font-weight: 800;
+      font-size: clamp(1rem, 5vw, 1.4rem);
+      color: var(--dark-blue);
+      // #315B51;
+      span {
+        color: var(--orange);
       }
     }
 
     .buttons {
-      width: 40%;
-      max-width: 200px;
+      width: 50%;
+      max-width: 300px;
       display: flex;
       justify-content: space-between;
-
       img {
-        width: 30px;
+        width: 20px;
       }
 
       button {
         background: none;
         border: none;
-        width: fit-content;
-        height: fit-content;
+        width: 80px;
+        height: 50px;
+        color: var(--dark-blue);
+        font-weight: 600;
+
+        &:hover {
+          background-color: #ddc0a4;
+        }
       }
+
+      .cart {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        span {
+          margin-right: 5px;
+        }
+      }
+
+      .link {
+        text-decoration: none;
+        color: var(--dark-blue);
+      }
+    }
+  }
+
+  @media screen and (min-width: 600px) {
+    header {
+      padding: 10px 15px;
     }
   }
 }

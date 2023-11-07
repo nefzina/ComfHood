@@ -1,7 +1,7 @@
 import "../scss/footer.scss";
 import PropTypes from "prop-types";
 
-export default function Footer({ setShowModal }) {
+export default function Footer({ setShowModal, setTab }) {
   return (
     <footer className="footer">
       <h2>ComfHood</h2>
@@ -19,10 +19,22 @@ export default function Footer({ setShowModal }) {
         </ul>
 
         <div className="buttons">
-          <button type="button" onClick={() => setShowModal(true)}>
+          <button
+            type="button"
+            onClick={() => {
+              setTab(2);
+              setShowModal(true);
+            }}
+          >
             Sign up
           </button>
-          <button type="button" onClick={() => setShowModal(true)}>
+          <button
+            type="button"
+            onClick={() => {
+              setTab(1);
+              setShowModal(true);
+            }}
+          >
             Sign in
           </button>
         </div>
@@ -36,4 +48,5 @@ export default function Footer({ setShowModal }) {
 
 Footer.propTypes = {
   setShowModal: PropTypes.func.isRequired,
+  setTab: PropTypes.func.isRequired,
 };
