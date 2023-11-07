@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import "../scss/item.scss";
 import caret from "../assets/caret.png";
 import UserContext from "../contexts/UserContext";
+import changeQuantity from "../services/changeQuantity";
 
 export default function Item() {
   const [item, setItem] = useState({});
@@ -22,19 +23,59 @@ export default function Item() {
   const AddToCart = () => {
     if (user) {
       axios
-        .post(`${import.meta.env.VITE_BACKEND_URL}/carts`, {
-          item_id: item.id,
-          user_id: user.id,
-        })
+        .get(`${import.meta.env.VITE_BACKEND_URL}/carts/${user.id}/${item.id}`)
         .then((result) => {
-          if (result.status === 201) {
-            console.info("Done !");
-          } else console.error("Error occured !");
+          if (result.data.message === "not found") {
+            // item doesn't exist in DB
+            axios
+              .post(`${import.meta.env.VITE_BACKEND_URL}/carts`, {
+                item_id: item.id,
+                user_id: user.id,
+                quantity: 1,
+              })
+              .then((res) => {
+                if (res.status === 201) {
+                  console.info("Done !");
+                } else console.error("Error occured !");
+              })
+              .catch((err) => console.error(err));
+          } else {
+            // item exists already in DB
+
+            axios
+              .put(`${import.meta.env.VITE_BACKEND_URL}/carts`, {
+                item_id: item.id,
+                user_id: user.id,
+                quantity: result.data.quantity + 1,
+              })
+              .then((res) => {
+                if (res.status === 201) {
+                  console.info("Done !");
+                } else console.error("Error occured !");
+              })
+              .catch((err) => console.error(err));
+          }
         })
         .catch((err) => console.error(err));
+    } else if (
+      // no user thus using local storage
+      // add item
+      !localStorage.getItem("cartItems") ||
+      !JSON.parse(localStorage.getItem("cartItems"))?.filter(
+        (element) => element.id === item.id
+      ).length
+    ) {
+      localStorage.setItem(
+        "cartItems",
+        JSON.stringify([...cartItems, { id: item.id, quantity: 1 }])
+      );
+      setCartItems([...cartItems, { id: item.id, quantity: 1 }]);
     } else {
-      localStorage.setItem("cartItems", JSON.stringify([...cartItems, item]));
-      setCartItems([...cartItems, item]);
+      // modify existing item in local storage
+      const data = JSON.parse(localStorage.getItem("cartItems"));
+      const newData = changeQuantity(data, item.id, "add");
+      localStorage.setItem("cartItems", JSON.stringify(newData));
+      setCartItems(newData);
     }
   };
 

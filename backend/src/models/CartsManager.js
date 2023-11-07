@@ -7,22 +7,29 @@ class CartsManager extends AbstractManager {
 
   findByUserId(userId) {
     return this.database.query(
-      `select item_id from ${this.table} where user_id = ?`,
-      [userId]
+      `select item_id, quantity from ${this.table} where user_id = ?`,
+      [userId.user_id]
     );
   }
 
-  insert(cart) {
+  findByUserItemIds(userId, itemId) {
     return this.database.query(
-      `insert into ${this.table} (item_id, user_id) values (?, ?)`,
-      [cart.item_id, cart.user_id]
+      `select quantity from ${this.table} where user_id = ? and item_id = ?`,
+      [userId, itemId]
     );
   }
 
-  update(cart) {
+  insert(data) {
     return this.database.query(
-      `update ${this.table} set item_id = ? where uesr_id = ?`,
-      [cart.item_id, cart.user_id]
+      `insert into ${this.table} (item_id, user_id, quantity) values (?, ?, ?)`,
+      [data.item_id, data.user_id, data.quantity]
+    );
+  }
+
+  update(data) {
+    return this.database.query(
+      `update ${this.table} set quantity = ? where user_id = ? and item_id = ?`,
+      [data.quantity, data.user_id, data.item_id]
     );
   }
 

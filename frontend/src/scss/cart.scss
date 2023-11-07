@@ -94,7 +94,8 @@
       background: none;
       border: none;
       font-size: 21px;
-      color: blue;
+      color: var(--orange);
+      font-weight: 600;
 
       &:hover {
         text-decoration: underline;

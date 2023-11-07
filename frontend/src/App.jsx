@@ -11,15 +11,13 @@ import ProtectedRoutes from "./layouts/ProtectedRoutes";
 import SignInUpModal from "./components/SignInUpModal";
 import UserContext from "./contexts/UserContext";
 
-import cart from "./assets/trolley.png";
-import person from "./assets/user.png";
-import shield from "./assets/shield.png";
-import logOut from "./assets/logout.png";
+import cart from "./assets/shopping-cart.png";
 import "./App.scss";
 import Profile from "./pages/Profile";
 
 function App() {
   const [showModal, setShowModal] = useState(false);
+  const [tab, setTab] = useState(1);
   const { user, setUser } = useContext(UserContext);
 
   return (
@@ -27,13 +25,15 @@ function App() {
       <BrowserRouter>
         <header>
           <Link to="/" className="logo">
-            <i>COMFHOOD</i>
+            <i>
+              COMF<span>HOOD</span>
+            </i>
           </Link>
 
           <div className="buttons">
             {user?.role_id === 2 && (
-              <Link to="/dashboard">
-                <img src={shield} alt="shield" title="Dashboard" />
+              <Link to="/dashboard" className="link">
+                Dashboard
               </Link>
             )}
 
@@ -41,9 +41,12 @@ function App() {
               <button
                 type="button"
                 title="Sign in / Sign up"
-                onClick={() => setShowModal(true)}
+                onClick={() => {
+                  setShowModal(true);
+                  setTab(1);
+                }}
               >
-                <img src={person} alt="sign up sign in" />
+                Sign in
               </button>
             )}
 
@@ -54,25 +57,40 @@ function App() {
                   title="Log out"
                   onClick={() => setUser(null)}
                 >
-                  <img src={logOut} alt="sign out" />
+                  Log out
                 </button>
-                <Link to="/profile">Profile</Link>
+                <button type="button">
+                  <Link to="/profile" className="link">
+                    Profile
+                  </Link>
+                </button>
               </>
             )}
-
-            <Link to="/cart">
-              <img src={cart} alt="cart" title="Cart" />
-            </Link>
+            <button type="button">
+              <Link to="/cart" className="link cart">
+                <span>Cart</span>
+                <img src={cart} alt="cart" title="Cart" />
+              </Link>
+            </button>
           </div>
         </header>
 
-        {showModal && <SignInUpModal setShowModal={setShowModal} />}
+        {showModal && (
+          <SignInUpModal
+            setShowModal={setShowModal}
+            tab={tab}
+            setTab={setTab}
+          />
+        )}
 
         <Routes>
           {/* PUBLIC ROUTES */}
           <Route path="/" element={<Home />} />
           <Route path="/items/:id" element={<Item />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route
+            path="/cart"
+            element={<Cart setTab={setTab} setShowModal={setShowModal} />}
+          />
 
           {/* LOGGED USER ROUTES */}
           <Route element={<ProtectedRoutes />}>
@@ -86,7 +104,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-      <Footer setShowModal={setShowModal} />
+      <Footer setShowModal={setShowModal} setTab={setTab} />
     </div>
   );
 }
