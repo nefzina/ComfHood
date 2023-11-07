@@ -55,8 +55,7 @@ export default function Products({ clothesTypes }) {
             <table>
               <thead>
                 <tr>
-                  {/* // eslint-disable-next-line rule-name */}
-                  <th> </th>
+                  <th>-</th>
                   <th>Displayed</th>
                   <th>Price</th>
                   <th>stock</th>
