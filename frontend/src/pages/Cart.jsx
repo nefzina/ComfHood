@@ -46,9 +46,7 @@ export default function Cart({ setTab, setShowModal }) {
                   <p>Size: {item.size}</p>
                   <div className="mobile">
                     <button type="button">-</button>
-                    <label htmlFor="">
-                      <input type="number" min="0" />
-                    </label>
+                    <p className="quantity">{item.quantity}</p>
                     <button type="button">+</button>
                   </div>
                 </div>
