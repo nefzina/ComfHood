@@ -76,7 +76,7 @@ router.get("/carts/:id", cartsControllers.readByUserId);
 router.get("/carts/:userId/:itemId", cartsControllers.readByUserItemIds);
 router.post("/carts", cartsControllers.add);
 router.put("/carts", cartsControllers.edit);
-// router.delete("/carts", cartsControllers.destroy);
+router.delete("/carts/:userId/:itemId", cartsControllers.destroyByItemId);
 
 router.get("/addresses/:id", addressesControllers.read);
 router.post("/addresses", addressesControllers.add);

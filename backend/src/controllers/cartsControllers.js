@@ -63,26 +63,29 @@ const add = (req, res) => {
     });
 };
 
-// const destroy = (req, res) => {
-//   models.carts
-//     .deleteItem(req.params.id)
-//     .then(([result]) => {
-//       if (result.affectedRows === 0) {
-//         res.sendStatus(404);
-//       } else {
-//         res.sendStatus(204);
-//       }
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       res.sendStatus(500);
-//     });
-// };
+const destroyByItemId = (req, res) => {
+  const userId = parseInt(req.params.userId, 10);
+  const itemId = parseInt(req.params.itemId, 10);
+
+  models.carts
+    .deleteItem(userId, itemId)
+    .then(([result]) => {
+      if (result.affectedRows === 0) {
+        res.sendStatus(404);
+      } else {
+        res.sendStatus(204);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+};
 
 module.exports = {
   readByUserId,
   readByUserItemIds,
   edit,
   add,
-  // destroy,
+  destroyByItemId,
 };
