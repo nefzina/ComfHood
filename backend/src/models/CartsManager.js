@@ -8,7 +8,7 @@ class CartsManager extends AbstractManager {
   findByUserId(userId) {
     return this.database.query(
       `select item_id, quantity from ${this.table} where user_id = ?`,
-      [userId.user_id]
+      [userId]
     );
   }
 

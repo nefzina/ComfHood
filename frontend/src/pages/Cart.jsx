@@ -21,11 +21,13 @@ export default function Cart({ setTab, setShowModal }) {
           if (result.data.length)
             result.data.forEach((element) => {
               axios
-                .get(`${import.meta.env.VITE_BACKEND_URL}/items/${element.id}`)
+                .get(
+                  `${import.meta.env.VITE_BACKEND_URL}/items/${element.item_id}`
+                )
                 .then((res) => {
                   if (!ignore)
-                    setBddItems([
-                      ...bddItems,
+                    setBddItems((previousValue) => [
+                      ...previousValue,
                       { ...res.data, quantity: element.quantity },
                     ]);
                 })
@@ -48,7 +50,7 @@ export default function Cart({ setTab, setShowModal }) {
       });
     }
     return () => (ignore = true); // eslint-disable-line
-  }, []);
+  }, [user]);
 
   return bddItems.length ? (
     <>
@@ -124,7 +126,7 @@ export default function Cart({ setTab, setShowModal }) {
       </table>
       <div className="payment">
         <h3>
-          Total price : <span>{totalPrice(bddItems)} €</span>
+          Total price : <span>{totalPrice(bddItems).toFixed(2)} €</span>
         </h3>
         <button
           type="button"
