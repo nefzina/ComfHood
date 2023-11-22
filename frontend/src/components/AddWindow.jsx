@@ -18,6 +18,13 @@ export default function AddWindow({ setIsShown }) {
 
   const [msg, setMsg] = useState("");
 
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/types`)
+      .then((result) => setClothesTypes(result.data))
+      .catch((err) => console.error(err));
+  }, []);
+
   const handleSubmission = (e) => {
     e.preventDefault();
     if (inputRef.current.files[0]) {
@@ -89,13 +96,6 @@ export default function AddWindow({ setIsShown }) {
       setMsg("");
     }, 4000);
   };
-
-  useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/types`)
-      .then((result) => setClothesTypes(result.data))
-      .catch((err) => console.error(err));
-  }, []);
 
   return (
     <div className="addModal">

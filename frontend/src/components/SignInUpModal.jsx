@@ -12,7 +12,6 @@ import {
 import "../scss/signinupmodal.scss";
 
 export default function SignInUpModal({ setShowModal, tab, setTab }) {
-  // const [tab, setTab] = useState(1);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstname, setFirstname] = useState("");
@@ -25,7 +24,7 @@ export default function SignInUpModal({ setShowModal, tab, setTab }) {
     lastname: "",
   });
 
-  const { setUser } = useContext(UserContext);
+  const { setUser, setToken } = useContext(UserContext);
   const navigate = useNavigate();
 
   const [alert, setAlert] = useState(false);
@@ -37,51 +36,54 @@ export default function SignInUpModal({ setShowModal, tab, setTab }) {
       password,
     })
       .then((res) => {
-        if (res.data.role_id === 2) {
+        if (res.data.role_id) {
           setUser(res.data);
-          setTimeout(() => {
-            setShowModal(false);
-            navigate("/dashboard");
-          }, 400);
-        } else if (res.data.role_id === 1) {
-          setUser(res.data);
-          setTimeout(() => {
-            setShowModal(false);
-          }, 400);
+          setToken(res.token);
 
-          if (localStorage.getItem("cartItems")) {
-            const data = JSON.parse(localStorage.getItem("cartItems"));
-            data.forEach((element) => {
-              Axios.get(
-                `${import.meta.env.VITE_BACKEND_URL}/carts/${res.data.id}/${
-                  element.id
-                }`
-              )
-                .then((result) => {
-                  // item doesn't exist in cart
-                  if (result.data.message === "not found") {
-                    Axios.post(`${import.meta.env.VITE_BACKEND_URL}/carts`, {
-                      user_id: res.data.id,
-                      item_id: element.id,
-                      quantity: element.quantity,
-                    })
-                      .then((response) => console.info(response))
-                      .catch((err) => console.error(err));
-                  }
-                  // item exists in cart
-                  else {
-                    Axios.put(`${import.meta.env.VITE_BACKEND_URL}/carts`, {
-                      user_id: res.data.id,
-                      item_id: element.id,
-                      quantity: result.data.quantity + element.quantity,
-                    })
-                      .then((response) => console.info(response))
-                      .catch((err) => console.error(err));
-                  }
-                })
-                .catch((err) => console.error(err));
-            });
-            localStorage.removeItem("cartItems");
+          if (res.data.role_id === 2) {
+            setTimeout(() => {
+              setShowModal(false);
+              navigate("/dashboard");
+            }, 400);
+          } else if (res.data.role_id === 1) {
+            setTimeout(() => {
+              setShowModal(false);
+            }, 400);
+
+            if (localStorage.getItem("cartItems")) {
+              const data = JSON.parse(localStorage.getItem("cartItems"));
+              data.forEach((element) => {
+                Axios.get(
+                  `${import.meta.env.VITE_BACKEND_URL}/carts/${res.data.id}/${
+                    element.id
+                  }`
+                )
+                  .then((result) => {
+                    // item doesn't exist in cart
+                    if (result.data.message === "not found") {
+                      Axios.post(`${import.meta.env.VITE_BACKEND_URL}/carts`, {
+                        user_id: res.data.id,
+                        item_id: element.id,
+                        quantity: element.quantity,
+                      })
+                        .then((response) => console.info(response))
+                        .catch((err) => console.error(err));
+                    }
+                    // item exists in cart
+                    else {
+                      Axios.put(`${import.meta.env.VITE_BACKEND_URL}/carts`, {
+                        user_id: res.data.id,
+                        item_id: element.id,
+                        quantity: result.data.quantity + element.quantity,
+                      })
+                        .then((response) => console.info(response))
+                        .catch((err) => console.error(err));
+                    }
+                  })
+                  .catch((err) => console.error(err));
+              });
+              localStorage.removeItem("cartItems");
+            }
           }
         }
       })

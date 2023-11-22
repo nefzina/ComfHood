@@ -21,21 +21,18 @@ const addressesControllers = require("./controllers/addressesControllers");
 
 router.get("/items", itemsControllers.browse);
 router.get("/items/:id", itemsControllers.read);
-router.post("/items", itemsControllers.add);
-router.put("/items/:id", itemsControllers.edit);
-router.delete("/items/:id", itemsControllers.destroy);
+router.post("/items", itemsControllers.add); //
+router.put("/items/:id", itemsControllers.edit); //
+router.delete("/items/:id", itemsControllers.destroy); //
 
 router.get("/types", typesControllers.browse);
-// router.get("/types/:id", typesControllers.read);
-router.post("/types", typesControllers.add);
-router.put("/types/:id", typesControllers.edit);
-router.delete("/types/:id", typesControllers.destroy);
+router.post("/types", typesControllers.add); //
+router.put("/types/:id", typesControllers.edit); //
+router.delete("/types/:id", typesControllers.destroy); //
 
 const upload = multer({ dest: "./public/uploads" });
-router.post("/photos", upload.single("photo"), uploadFile.uploadFile);
+router.post("/photos", upload.single("photo"), uploadFile.uploadFile); //
 
-router.get("/users", usersControllers.browse);
-router.get("/users/:id", usersControllers.read);
 router.post(
   "/users",
   validateFirstname,
@@ -45,7 +42,13 @@ router.post(
   hashPassword,
   usersControllers.add
 );
+router.post("/login", validateEmail, validatePassword, authControllers.login);
 
+// protected routes
+// router.use(verifyToken); // authentication wall
+
+router.get("/users", usersControllers.browse);
+router.get("/users/:id", usersControllers.read);
 router.put(
   "/users/:id/firstname",
   validateFirstname,
@@ -69,8 +72,6 @@ router.put(
 );
 
 router.delete("/users/:id", usersControllers.destroy);
-
-router.post("/login", validateEmail, validatePassword, authControllers.login);
 
 router.get("/carts/:id", cartsControllers.readByUserId);
 router.get("/carts/:userId/:itemId", cartsControllers.readByUserItemIds);

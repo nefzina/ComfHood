@@ -12,22 +12,25 @@ import SignInUpModal from "./components/SignInUpModal";
 import UserContext from "./contexts/UserContext";
 
 import cart from "./assets/shopping-cart.png";
-import "./App.scss";
 import Profile from "./pages/Profile";
+import PageNotFound from "./pages/PageNotFound";
+import "./App.scss";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 function App() {
   const [showModal, setShowModal] = useState(false);
   const [tab, setTab] = useState(1);
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser, setToken } = useContext(UserContext);
   const navigate = useNavigate();
 
   return (
     <div className="app">
       <header>
         <Link to="/" className="logo">
-          <i>
+          <h2>
             COMF<span>HOOD</span>
-          </i>
+          </h2>
         </Link>
 
         <div className="buttons">
@@ -57,6 +60,7 @@ function App() {
                 title="Log out"
                 onClick={() => {
                   setUser(null);
+                  setToken(null);
                   navigate("/");
                 }}
               >
@@ -90,6 +94,8 @@ function App() {
           path="/cart"
           element={<Cart setTab={setTab} setShowModal={setShowModal} />}
         />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms&conditions" element={<TermsAndConditions />} />
 
         {/* LOGGED USER ROUTES */}
         <Route element={<ProtectedRoutes />}>
@@ -101,6 +107,8 @@ function App() {
         <Route element={<AdminProtectedRoutes />}>
           <Route path="/dashboard" element={<Admin />} />
         </Route>
+
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
 
       <Footer setShowModal={setShowModal} setTab={setTab} />
