@@ -74,3 +74,5 @@ Photo de <a href="https://unsplash.com/fr/@timothywilliamrose?utm_content=credit
  https://uiverse.io/kamehame-ha/lovely-fly-87
 
  <a href="https://www.flaticon.com/free-icons/shopping-cart" title="shopping-cart icons">Shopping-cart icons created by Roundicons Premium - Flaticon</a>
+
+ <a href="https://www.flaticon.com/free-icons/404-error" title="404-error icons">404-error icons created by Ghozi Muhtarom - Flaticon</a>

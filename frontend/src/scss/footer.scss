@@ -4,8 +4,10 @@
   margin: 50px auto 0;
   height: fit-content;
   padding: 30px 20px 10px;
-  background-color: #704132bb;
-  color: var(--bg-color);
+  // background-color: var(--light-brown);
+  // color: var(--bg-color);
+  color: var(--dark-brown);
+  border-top: 1px solid var(--dark-brown);
 
   .wrapper {
     display: flex;

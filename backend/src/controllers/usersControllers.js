@@ -41,8 +41,7 @@ const editFirstname = (req, res) => {
         res.sendStatus(204);
       }
     })
-    .catch((err) => {
-      console.error(err);
+    .catch(() => {
       res.sendStatus(500);
     });
 };

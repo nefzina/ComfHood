@@ -15,8 +15,8 @@ export default function Checkout() {
 
   const [alert, setAlert] = useState(false);
 
-  if (user.address_id)
-    useEffect(() => {
+  useEffect(() => {
+    if (user.address_id)
       axios
         .get(`${import.meta.env.VITE_BACKEND_URL}/addresses/${user.address_id}`)
         .then((result) => {
@@ -28,7 +28,7 @@ export default function Checkout() {
           setCountry(result.data.country);
         })
         .catch((err) => console.error(err));
-    }, []);
+  }, []);
 
   const saveAddress = () => {
     if (!user.address_id)
@@ -131,13 +131,7 @@ export default function Checkout() {
         </fieldset>
       </div>
 
-      <form
-        className="addressForm"
-        onSubmit={() => {
-          setAlert(true);
-          handleDelivery();
-        }}
-      >
+      <form className="addressForm" onSubmit={saveAddress}>
         Address
         <div className="line1">
           <fieldset>
@@ -197,10 +191,16 @@ export default function Checkout() {
             onChange={(e) => setCountry(e.target.value)}
           />
         </fieldset>
-        <button type="button" onClick={saveAddress}>
-          Save address
+        <button type="submit">Save address</button>
+        <button
+          type="button"
+          onClick={() => {
+            handleDelivery();
+            setAlert(true);
+          }}
+        >
+          Place order
         </button>
-        <button type="submit">Place order</button>
       </form>
 
       {alert &&

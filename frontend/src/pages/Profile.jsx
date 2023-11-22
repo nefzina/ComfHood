@@ -23,8 +23,8 @@ export default function Profile() {
   const [container, setContainer] = useState(0);
   const [infoToDisplay, setInfoToDisplay] = useState("");
 
-  if (user.address_id)
-    useEffect(() => {
+  useEffect(() => {
+    if (user.address_id)
       axios
         .get(`${import.meta.env.VITE_BACKEND_URL}/addresses/${user.address_id}`)
         .then((result) => {
@@ -36,7 +36,7 @@ export default function Profile() {
           setCountry(result.data.country);
         })
         .catch((err) => console.error(err));
-    }, [updateAddress, setUser]);
+  }, [updateAddress, setUser]);
 
   const changeFirstname = () => {
     axios
