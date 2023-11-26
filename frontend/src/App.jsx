@@ -66,19 +66,17 @@ function App() {
               >
                 Log out
               </button>
-              <button type="button">
-                <Link to="/profile" className="link">
-                  Profile
-                </Link>
-              </button>
+
+              <Link to="/profile" className="link">
+                Profile
+              </Link>
             </>
           )}
-          <button type="button">
-            <Link to="/cart" className="link cart">
-              <span>Cart</span>
-              <img src={cart} alt="cart" title="Cart" />
-            </Link>
-          </button>
+
+          <Link to="/cart" className="link cart">
+            <span>Cart</span>
+            <img src={cart} alt="cart" title="Cart" />
+          </Link>
         </div>
       </header>
 

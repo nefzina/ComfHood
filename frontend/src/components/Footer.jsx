@@ -30,6 +30,7 @@ export default function Footer({ setShowModal, setTab }) {
 
         <div className="buttons">
           <button
+            className="brownBtn"
             type="button"
             onClick={() => {
               setTab(2);
@@ -39,6 +40,7 @@ export default function Footer({ setShowModal, setTab }) {
             Sign up
           </button>
           <button
+            className="brownBtn"
             type="button"
             onClick={() => {
               setTab(1);

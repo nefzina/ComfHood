@@ -5,6 +5,12 @@ class ItemsManager extends AbstractManager {
     super({ table: "items" });
   }
 
+  findPublic() {
+    return this.database.query(
+      `select * from ${this.table} where isPublic = 1`
+    );
+  }
+
   insert(item) {
     if (item.photo)
       return this.database.query(

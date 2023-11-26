@@ -12,6 +12,18 @@ const browse = (req, res) => {
     });
 };
 
+const browsePublic = (req, res) => {
+  models.items
+    .findPublic()
+    .then(([rows]) => {
+      res.send(rows);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+};
+
 const read = (req, res) => {
   models.items
     .find(req.params.id)
@@ -30,8 +42,6 @@ const read = (req, res) => {
 
 const edit = (req, res) => {
   const item = req.body;
-
-  // TODO validations (length, format...)
 
   item.id = parseInt(req.params.id, 10);
 
@@ -52,8 +62,6 @@ const edit = (req, res) => {
 
 const add = (req, res) => {
   const item = req.body;
-
-  // TODO validations (length, format...)
 
   models.items
     .insert(item)
@@ -84,6 +92,7 @@ const destroy = (req, res) => {
 
 module.exports = {
   browse,
+  browsePublic,
   read,
   edit,
   add,

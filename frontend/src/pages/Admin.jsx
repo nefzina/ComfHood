@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import Products from "../components/Products";
-import "../scss/admin.scss";
-import Dashboard from "../components/Dashboard";
 import CustomersList from "../components/CustomersList";
-import returnImg from "../assets/back.png";
+import Dashboard from "../components/Dashboard";
+import getAxiosInstance from "../services/axios";
 import openImg from "../assets/open-caret.png";
+import Products from "../components/Products";
+import returnImg from "../assets/back.png";
+import "../scss/admin.scss";
 
 export default function Admin() {
   const [tab, setTab] = useState("dashboard");
   const [showAdminNavBar, setShowAdminNavBar] = useState(false);
   const [clothesTypes, setClothesTypes] = useState([]);
+  const axiosInstance = getAxiosInstance();
 
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/types`)
+    axiosInstance
+      .get(`/types`)
       .then((result) => setClothesTypes(result.data))
       .catch((err) => console.error(err));
   }, []);
@@ -44,7 +45,7 @@ export default function Admin() {
 
       <button
         type="button"
-        className="openBtn"
+        className="openMenuBtn"
         onClick={() => setShowAdminNavBar(true)}
       >
         <img src={openImg} alt="open menu" />

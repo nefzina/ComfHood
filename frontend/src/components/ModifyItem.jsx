@@ -1,7 +1,8 @@
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import "../scss/modifyItem.scss";
 import PropTypes from "prop-types";
+import getAxiosInstance from "../services/axios";
+import closeBtn from "../assets/close.png";
+import "../scss/modifyItem.scss";
 
 export default function ModifyItem({ setItemToModify, itemToModify }) {
   const [clothesTypes, setClothesTypes] = useState([]);
@@ -18,10 +19,11 @@ export default function ModifyItem({ setItemToModify, itemToModify }) {
   const [price, setPrice] = useState(0.0);
 
   const [msg, setMsg] = useState("");
+  const axiosInstance = getAxiosInstance();
 
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/items/${itemToModify.id}`)
+    axiosInstance
+      .get(`/items/${itemToModify.id}`)
       .then((result) => {
         setTypeId(result.data.type_id);
         setName(result.data.name);
@@ -42,44 +44,38 @@ export default function ModifyItem({ setItemToModify, itemToModify }) {
       // POST file
       const formData = new FormData();
       formData.append("photo", inputRef.current.files[0]);
-      axios
-        .post(`${import.meta.env.VITE_BACKEND_URL}/photos`, formData)
+      axiosInstance
+        .post(`/photos`, formData)
         .then((result) => {
           if (result.status === 201) {
             // post all input data after file upload
-            axios
-              .put(
-                `${import.meta.env.VITE_BACKEND_URL}/items/${itemToModify.id}`,
-                {
-                  typeId,
-                  name,
-                  material,
-                  stockQuantity,
-                  color,
-                  description,
-                  photo: `/uploads/${result.data}`,
-                  isPublic,
-                  price,
-                }
-              )
+            axiosInstance
+              .put(`/items/${itemToModify.id}`, {
+                typeId,
+                name,
+                material,
+                stockQuantity,
+                color,
+                description,
+                photo: `/uploads/${result.data}`,
+                isPublic,
+                price,
+              })
               .then((resp) => {
-                if (resp.status === 201) {
+                if (resp.status === 204) {
                   setMsg("Article modified successfully !");
-                  setTimeout(() => {
-                    setItemToModify({});
-                  }, 4000);
+                  setItemToModify({});
                 }
               })
-              .catch((err) => console.error(err));
+              .catch(() => setMsg("An error has occured !"));
           }
         })
-        .catch((err) => {
+        .catch(() => {
           setMsg("An error has occured !");
-          console.error(err);
         });
     } else {
       // post all input data without file upload
-      axios
+      axiosInstance
         .put(`${import.meta.env.VITE_BACKEND_URL}/items/${itemToModify.id}`, {
           typeId,
           name,
@@ -92,11 +88,9 @@ export default function ModifyItem({ setItemToModify, itemToModify }) {
           price,
         })
         .then((resp) => {
-          if (resp.status === 201) {
+          if (resp.status === 204) {
             setMsg("Article modified successfully !");
-            setTimeout(() => {
-              setItemToModify({});
-            }, 4000);
+            setItemToModify({});
           }
         })
         .catch((err) => {
@@ -111,8 +105,8 @@ export default function ModifyItem({ setItemToModify, itemToModify }) {
   };
 
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/types`)
+    axiosInstance
+      .get(`/types`)
       .then((result) => setClothesTypes(result.data))
       .catch((err) => console.error(err));
   }, []);
@@ -124,7 +118,7 @@ export default function ModifyItem({ setItemToModify, itemToModify }) {
         className="close"
         onClick={() => setItemToModify({})}
       >
-        x
+        <img src={closeBtn} alt="close button" />
       </button>
       <form
         className="form"
@@ -206,16 +200,20 @@ export default function ModifyItem({ setItemToModify, itemToModify }) {
         <label htmlFor="photo">Change photo</label>
         <input type="file" id="photo" name="photo" ref={inputRef} />
 
-        <label htmlFor="public">Article is public</label>
-        <input
-          type="checkbox"
-          id="public"
-          value={isPublic}
-          checked={isPublic}
-          onChange={() => setIsPublic(!isPublic)}
-        />
+        <label htmlFor="public">
+          Article is public
+          <input
+            type="checkbox"
+            id="public"
+            value={isPublic}
+            checked={isPublic}
+            onChange={() => setIsPublic(!isPublic)}
+          />
+        </label>
 
-        <button type="submit">Validate</button>
+        <button type="submit" className="greenBtn">
+          Validate
+        </button>
       </form>
 
       <div>
