@@ -7,42 +7,29 @@
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: RubikMonoOne;
+  src: local("Rubik Mono One regular"),
+    url("./fonts/Rubik_Mono_One/RubikMonoOne-Regular.ttf") format("TrueType");
+}
+
 /* font-size: calc(10px + 2vmin); */
 
 :root {
   --bg-color: #f0ece8;
-  --black: #1e1e1e;
-  --violet: #6161db;
-  --navyBlue: #1d1d1f;
-  --dark-blue: #19647e;
+  --green: #315b51;
   --orange: #b04623;
   --light-brown: #926e62;
   --dark-brown: #704232;
-  --pink: #e546d8;
   --hover: #ddc0a4;
-  --fontFamily: "Roboto", sans-serif;
+  --roboto: "Roboto", sans-serif;
+  --black: #1e1e1e;
 }
 
 .app {
   min-height: 100vh;
   margin: 0 auto;
   background-color: var(--bg-color);
-  // background-image: linear-gradient(
-  //   to top,
-  //   // #EAB1CB, //intruder
-  //   #f699ce,
-  //   #e59bd9,
-  //   #d19fe2,
-  //   #bca2e8,
-  //   #a5a5ea,
-  //   #94aded,
-  //   #86b3ec,
-  //   #7bb9e9,
-  //   #7ec4e6,
-  //   #89cee2,
-  //   #9ad6de,
-  //   #aededc,
-  // );
 
   header {
     width: 100%;
@@ -52,18 +39,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 10px;
-
-    .logo {
-      text-decoration: none;
-      font-weight: 800;
-      font-size: clamp(1rem, 5vw, 1.4rem);
-      color: var(--dark-blue);
-      // #315B51;
-      span {
-        color: var(--orange);
-      }
-    }
+    padding: 0 10px;
 
     .buttons {
       width: 50%;
@@ -79,7 +55,7 @@
         border: none;
         width: 80px;
         height: 50px;
-        color: var(--dark-blue);
+        color: var(--green);
         font-weight: 600;
 
         &:hover {
@@ -98,14 +74,82 @@
 
       .link {
         text-decoration: none;
-        color: var(--dark-blue);
+        color: var(--green);
       }
     }
   }
 
+  .logo {
+    text-decoration: none;
+    height: 50px;
+    display: flex;
+    align-items: center;
+
+    h2 {
+      font-size: clamp(1rem, 3vw, 2rem);
+      font-weight: 900;
+      font-family: RubikMonoOne;
+      color: var(--green);
+
+      span {
+        color: var(--orange);
+        font-family: RubikMonoOne;
+      }
+    }
+  }
+
+  .greenBtn {
+    background-color: var(--green);
+    color: var(--bg-color);
+    padding: 8px 40px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 2px 2px 5px #7e7e7e;
+
+    &:hover {
+      color: var(--green);
+      background-color: var(--bg-color);
+      border: 1px solid var(--green);
+    }
+  }
+
+  .brownBtn {
+    background-color: var(--dark-brown);
+    color: var(--bg-color);
+    padding: 8px 20px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: 600;
+
+    &:hover {
+      background-color: var(--orange);
+    }
+  }
+  .successAlert,
+  .errorAlert {
+    padding: 10px 20px;
+    max-width: 500px;
+    border-radius: 4px;
+    margin: 20px auto;
+  }
+  .successAlert {
+    background-color: #bfddd6;
+    color: var(--green);
+    border: 1px solid var(--green);
+  }
+
+  .errorAlert {
+    background-color: #e9ccc8;
+    color: var(--orange);
+    border: 1px solid var(--orange);
+  }
+
   @media screen and (min-width: 600px) {
     header {
-      padding: 10px 15px;
+      padding: 0 15px;
     }
   }
 }

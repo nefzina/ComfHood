@@ -1,10 +1,11 @@
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import "../scss/item.scss";
-import caret from "../assets/caret.png";
-import UserContext from "../contexts/UserContext";
 import changeQuantity from "../services/changeQuantity";
+import getAxiosInstance from "../services/axios";
+import UserContext from "../contexts/UserContext";
+
+import caret from "../assets/caret.png";
+import "../scss/item.scss";
 
 export default function Item() {
   const [item, setItem] = useState({});
@@ -12,23 +13,24 @@ export default function Item() {
 
   const [showDescription, setshowDescription] = useState(false);
   const { cartItems, setCartItems, user } = useContext(UserContext);
+  const axiosInstance = getAxiosInstance();
 
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/items/${id}`)
+    axiosInstance
+      .get(`/items/${id}`)
       .then((result) => setItem(result.data))
       .catch((err) => console.error(err));
   }, []);
 
   const AddToCart = () => {
     if (user) {
-      axios
-        .get(`${import.meta.env.VITE_BACKEND_URL}/carts/${user.id}/${item.id}`)
+      axiosInstance
+        .get(`/carts/${user.id}/${item.id}`)
         .then((result) => {
           if (result.data.message === "not found") {
             // item doesn't exist in DB
-            axios
-              .post(`${import.meta.env.VITE_BACKEND_URL}/carts`, {
+            axiosInstance
+              .post(`/carts`, {
                 item_id: item.id,
                 user_id: user.id,
                 quantity: 1,
@@ -42,8 +44,8 @@ export default function Item() {
           } else {
             // item exists already in DB
 
-            axios
-              .put(`${import.meta.env.VITE_BACKEND_URL}/carts`, {
+            axiosInstance
+              .put(`/carts`, {
                 item_id: item.id,
                 user_id: user.id,
                 quantity: result.data.quantity + 1,

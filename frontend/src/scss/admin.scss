@@ -5,7 +5,7 @@
     padding: 150px 0;
     margin: 0 auto;
     position: fixed;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
     top: 0;
 
     button {
@@ -16,14 +16,14 @@
       box-shadow: 4px 3px 10px 7px rgba(236, 232, 232, 0.19);
       margin-bottom: 10px;
       transition: all 0.3s ease-in-out;
-      background: rgba(255, 255, 255, 0.582);
-      color: var(--violet);
-      font-size: 0.8rem;
+      background-color: var(--green);
+      color: var(--bg-color);
+      font-size: 0.9rem;
       font-weight: 600;
       letter-spacing: 0.8px;
 
       &:hover {
-        font-size: 0.9em;
+        font-size: 1rem;
       }
 
       img {
@@ -34,6 +34,19 @@
 
   .hideAdminNavBar {
     display: none;
+  }
+
+  .openMenuBtn {
+    background-color: var(--green);
+    border: none;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+    height: 50px;
+    width: 60px;
+    margin-top: 30px;
+    img {
+      width: 70%;
+    }
   }
 }
 
@@ -50,22 +63,23 @@
       height: 300px;
       padding: 50px 0;
       margin: 0;
-      position: relative;
       backdrop-filter: none;
-      border-left: 1px solid;
 
       button {
-        width: 200px;
+        width: 180px;
         height: 40px;
-        border: none;
+        border: 1px solid var(--green);
         border-top-right-radius: 8px;
         border-bottom-right-radius: 8px;
+        background-color: var(--bg-color);
+        color: var(--green);
         box-shadow: 4px 3px 10px 7px rgba(107, 105, 105, 0.19);
         margin-bottom: 10px;
+        font-size: 1rem;
         font-weight: 700;
         transition: all 0.2s ease-in-out;
         &:hover {
-          width: 220px;
+          width: 200px;
         }
       }
 
@@ -74,7 +88,7 @@
       }
     }
   }
-  .openBtn {
+  .openMenuBtn {
     display: none;
   }
 }

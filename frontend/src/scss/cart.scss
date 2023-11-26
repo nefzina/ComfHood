@@ -8,27 +8,40 @@
 
   thead {
     border-bottom: 1px solid gray;
-
-    tr > th {
-      text-align: left;
+    tr {
+      color: var(--orange);
+      font-size: 1.1rem;
+      th {
+        text-align: left;
+        padding: 0 10px;
+      }
     }
   }
 
+  td {
+    padding: 0 10px;
+  }
+
   .productHeader {
-    width: 80%;
+    width: clamp(70vw, 2vw, 80vw);
+  }
+  .priceHeader,
+  .quantityHeader {
+    max-width: 130px;
+    width: 12vw;
   }
 
   .desktop,
   .mobile {
     display: none;
+
+    .quantityContainer {
+      display: flex;
+      gap: 10px;
+    }
     button {
       width: 25px;
       height: 25px;
-    }
-    input {
-      width: 50px;
-      height: 25px;
-      padding: 5px;
     }
   }
 
@@ -59,10 +72,20 @@
         max-width: 600px;
         display: flex;
         justify-content: flex-start;
-        gap: 30px;
+        gap: clamp(15px, 3vw, 30px);
 
         img {
+          width: 100%;
           max-width: 150px;
+        }
+        .data {
+          width: 150px;
+        }
+
+        @media screen and (min-width: 470px) {
+          .data {
+            width: clamp(180px, 60%, 550px);
+          }
         }
 
         @media screen and (min-width: 800px) {
@@ -72,6 +95,13 @@
         }
       }
     }
+  }
+}
+
+.payment {
+  padding: 10px;
+  h3 {
+    color: var(--green);
   }
 }
 

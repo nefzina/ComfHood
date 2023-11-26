@@ -8,7 +8,7 @@ class CartsManager extends AbstractManager {
   findByUserId(userId) {
     return this.database.query(
       `select item_id, quantity from ${this.table} where user_id = ?`,
-      [userId.user_id]
+      [userId]
     );
   }
 
@@ -33,10 +33,11 @@ class CartsManager extends AbstractManager {
     );
   }
 
-  deleteItem(itemId) {
-    return this.database.query(`delete from ${this.table} where item_id = ?`, [
-      itemId,
-    ]);
+  deleteItem(userId, itemId) {
+    return this.database.query(
+      `delete from ${this.table} where userId = ? and item_id = ?`,
+      [userId, itemId]
+    );
   }
 }
 

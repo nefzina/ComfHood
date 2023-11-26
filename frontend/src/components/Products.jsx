@@ -1,4 +1,3 @@
-import axios from "axios";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import AddWindow from "./AddWindow";
@@ -7,24 +6,25 @@ import ModifyItem from "./ModifyItem";
 import editPencil from "../assets/edit.png";
 import deleteImg from "../assets/delete.png";
 import "../scss/products.scss";
+import getAxiosInstance from "../services/axios";
 
 export default function Products({ clothesTypes }) {
   const [clothesList, setClothesList] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [itemToModify, setItemToModify] = useState({});
-
   const [msg, setMgs] = useState("");
+  const axiosInstance = getAxiosInstance();
 
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/items`)
+    axiosInstance
+      .get(`/items`)
       .then((result) => setClothesList(result.data))
       .catch((err) => console.error(err));
   }, [showAddModal, msg, itemToModify]);
 
   const deleteItem = (id) => {
-    axios
-      .delete(`${import.meta.env.VITE_BACKEND_URL}/items/${id}`)
+    axiosInstance
+      .delete(`/items/${id}`)
       .then((result) => {
         if (result.status === 204) {
           setMgs("Item deleted successfully !");
@@ -42,20 +42,21 @@ export default function Products({ clothesTypes }) {
     <div className="products">
       <button
         type="button"
-        className="addBtn"
+        className="greenBtn addBtn "
         onClick={() => setShowAddModal(!showAddModal)}
       >
         Add new article
       </button>
+      <h3>Product list</h3>
       {clothesTypes &&
         clothesTypes.map((type) => (
           <div key={type.id} className="articleType">
-            {type.type}
+            <h4>{type.type}</h4>
 
             <table>
               <thead>
                 <tr>
-                  <th>-</th>
+                  <th style={{ color: "#f0ece8" }}>photo</th>
                   <th>Displayed</th>
                   <th>Price</th>
                   <th>stock</th>

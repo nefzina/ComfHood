@@ -8,6 +8,7 @@ const {
   validateEmail,
   validatePassword,
   validateAddressId,
+  verifyToken,
 } = require("./middlewares/validator");
 
 const router = express.Router();
@@ -19,23 +20,30 @@ const authControllers = require("./controllers/authControllers");
 const cartsControllers = require("./controllers/cartsControllers");
 const addressesControllers = require("./controllers/addressesControllers");
 
-router.get("/items", itemsControllers.browse);
+const upload = multer({ dest: "./public/uploads" });
+router.post(
+  "/photos",
+  verifyToken,
+  upload.single("photo"),
+  uploadFile.uploadFile
+);
+
+router.get("/publicItems", itemsControllers.browsePublic);
+router.get("/items", verifyToken, itemsControllers.browse);
 router.get("/items/:id", itemsControllers.read);
-router.post("/items", itemsControllers.add);
-router.put("/items/:id", itemsControllers.edit);
-router.delete("/items/:id", itemsControllers.destroy);
+router.post("/items", verifyToken, itemsControllers.add);
+router.put("/items/:id", verifyToken, itemsControllers.edit);
+router.delete("/items/:id", verifyToken, itemsControllers.destroy);
 
 router.get("/types", typesControllers.browse);
-// router.get("/types/:id", typesControllers.read);
-router.post("/types", typesControllers.add);
-router.put("/types/:id", typesControllers.edit);
-router.delete("/types/:id", typesControllers.destroy);
+router.post("/types", verifyToken, typesControllers.add);
+router.put("/types/:id", verifyToken, typesControllers.edit);
+router.delete("/types/:id", verifyToken, typesControllers.destroy);
 
-const upload = multer({ dest: "./public/uploads" });
-router.post("/photos", upload.single("photo"), uploadFile.uploadFile);
+router.post("/login", validateEmail, validatePassword, authControllers.login);
 
-router.get("/users", usersControllers.browse);
-router.get("/users/:id", usersControllers.read);
+router.get("/users", verifyToken, usersControllers.browse);
+router.get("/users/:id", verifyToken, usersControllers.read);
 router.post(
   "/users",
   validateFirstname,
@@ -48,39 +56,49 @@ router.post(
 
 router.put(
   "/users/:id/firstname",
+  verifyToken,
   validateFirstname,
   usersControllers.editFirstname
 );
 router.put(
   "/users/:id/lastname",
+  verifyToken,
   validateLastname,
   usersControllers.editLastname
 );
 router.put(
   "/users/:id/password",
+  verifyToken,
   validatePassword,
   hashPassword,
   usersControllers.editPassword
 );
 router.put(
   "/users/:id/addressId",
+  verifyToken,
   validateAddressId,
   usersControllers.editAddressId
 );
 
-router.delete("/users/:id", usersControllers.destroy);
+router.delete("/users/:id", verifyToken, usersControllers.destroy);
 
-router.post("/login", validateEmail, validatePassword, authControllers.login);
+router.get("/carts/:id", verifyToken, cartsControllers.readByUserId);
+router.get(
+  "/carts/:userId/:itemId",
+  verifyToken,
+  cartsControllers.readByUserItemIds
+);
+router.post("/carts", verifyToken, cartsControllers.add);
+router.put("/carts", verifyToken, cartsControllers.edit);
+router.delete(
+  "/carts/:userId/:itemId",
+  verifyToken,
+  cartsControllers.destroyByItemId
+);
 
-router.get("/carts/:id", cartsControllers.readByUserId);
-router.get("/carts/:userId/:itemId", cartsControllers.readByUserItemIds);
-router.post("/carts", cartsControllers.add);
-router.put("/carts", cartsControllers.edit);
-// router.delete("/carts", cartsControllers.destroy);
-
-router.get("/addresses/:id", addressesControllers.read);
-router.post("/addresses", addressesControllers.add);
-router.put("/addresses/:id", addressesControllers.edit);
-router.delete("/addresses/:id", addressesControllers.destroy);
+router.get("/addresses/:id", verifyToken, addressesControllers.read);
+router.post("/addresses", verifyToken, addressesControllers.add);
+router.put("/addresses/:id", verifyToken, addressesControllers.edit);
+router.delete("/addresses/:id", verifyToken, addressesControllers.destroy);
 
 module.exports = router;

@@ -1,9 +1,10 @@
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import "../scss/addWindow.scss";
 import PropTypes from "prop-types";
+import closeBtn from "../assets/close.png";
+import "../scss/addWindow.scss";
+import getAxiosInstance from "../services/axios";
 
-export default function AddWindow({ setIsShown }) {
+export default function AddWindow({ setShowAddModal }) {
   const [clothesTypes, setClothesTypes] = useState([]);
   const inputRef = useRef(null);
 
@@ -17,6 +18,14 @@ export default function AddWindow({ setIsShown }) {
   const [price, setPrice] = useState(0.0);
 
   const [msg, setMsg] = useState("");
+  const axiosInstance = getAxiosInstance();
+
+  useEffect(() => {
+    axiosInstance
+      .get(`/types`)
+      .then((result) => setClothesTypes(result.data))
+      .catch((err) => console.error(err));
+  }, []);
 
   const handleSubmission = (e) => {
     e.preventDefault();
@@ -24,17 +33,17 @@ export default function AddWindow({ setIsShown }) {
       // POST file
       const formData = new FormData();
       formData.append("photo", inputRef.current.files[0]);
-      axios
-        .post(`${import.meta.env.VITE_BACKEND_URL}/photos`, formData)
+      axiosInstance
+        .post(`/photos`, formData)
         .then((result) => {
           if (result.status === 201) {
             // post all input data after file upload
-            axios
-              .post(`${import.meta.env.VITE_BACKEND_URL}/items`, {
+            axiosInstance
+              .post(`/items`, {
                 typeId,
                 name,
                 material,
-                quantity,
+                stockQuantity: quantity,
                 color,
                 description,
                 photo: `/uploads/${result.data}`,
@@ -53,12 +62,12 @@ export default function AddWindow({ setIsShown }) {
         });
     } else {
       // post all input data without file upload
-      axios
-        .post(`${import.meta.env.VITE_BACKEND_URL}/clothes`, {
+      axiosInstance
+        .post(`/items`, {
           typeId,
           name,
           material,
-          quantity,
+          stockQuantity: quantity,
           color,
           description,
           isPublic,
@@ -90,23 +99,21 @@ export default function AddWindow({ setIsShown }) {
     }, 4000);
   };
 
-  useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/types`)
-      .then((result) => setClothesTypes(result.data))
-      .catch((err) => console.error(err));
-  }, []);
-
   return (
     <div className="addModal">
-      <button type="button" className="close" onClick={() => setIsShown(false)}>
-        x
+      <button
+        type="button"
+        className="close"
+        onClick={() => setShowAddModal(false)}
+      >
+        <img src={closeBtn} alt="close button" />
       </button>
       <form
         className="form"
         encType="multipart/form-data"
         onSubmit={handleSubmission}
       >
+        <h3>Add a new item</h3>
         <label htmlFor="type">Type</label>
         <select
           type="text"
@@ -179,15 +186,19 @@ export default function AddWindow({ setIsShown }) {
         <label htmlFor="photo">Upload photos</label>
         <input type="file" id="photo" name="photo" ref={inputRef} />
 
-        <label htmlFor="public">Article is public</label>
-        <input
-          type="checkbox"
-          id="public"
-          value={isPublic}
-          onClick={() => setIsPublic(!isPublic)}
-        />
+        <label htmlFor="public">
+          Article is public
+          <input
+            type="checkbox"
+            id="public"
+            value={isPublic}
+            onClick={() => setIsPublic(!isPublic)}
+          />
+        </label>
 
-        <button type="submit">Add new item</button>
+        <button className="greenBtn" type="submit">
+          Add new item
+        </button>
       </form>
 
       <div>
@@ -202,5 +213,5 @@ export default function AddWindow({ setIsShown }) {
 }
 
 AddWindow.propTypes = {
-  setIsShown: PropTypes.func.isRequired,
+  setShowAddModal: PropTypes.func.isRequired,
 };

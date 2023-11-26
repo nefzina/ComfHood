@@ -1,10 +1,16 @@
-import "../scss/footer.scss";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import "../scss/footer.scss";
 
 export default function Footer({ setShowModal, setTab }) {
   return (
     <footer className="footer">
-      <h2>ComfHood</h2>
+      <Link to="/" className="logo">
+        <h2>
+          COMF<span>HOOD</span>
+        </h2>
+      </Link>
+
       <div className="wrapper">
         <p className="col1">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic
@@ -14,12 +20,17 @@ export default function Footer({ setShowModal, setTab }) {
 
         <ul>
           <li>About</li>
-          <li>Terms & conditions</li>
-          <li>Privacy policy</li>
+          <li>
+            <Link to="/terms&conditions">Terms & conditions</Link>
+          </li>
+          <li>
+            <Link to="/privacy-policy">Privacy policy</Link>{" "}
+          </li>
         </ul>
 
         <div className="buttons">
           <button
+            className="brownBtn"
             type="button"
             onClick={() => {
               setTab(2);
@@ -29,6 +40,7 @@ export default function Footer({ setShowModal, setTab }) {
             Sign up
           </button>
           <button
+            className="brownBtn"
             type="button"
             onClick={() => {
               setTab(1);

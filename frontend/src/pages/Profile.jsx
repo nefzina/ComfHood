@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
+import getAxiosInstance from "../services/axios";
 import UserContext from "../contexts/UserContext";
 import "../scss/profile.scss";
 
@@ -22,11 +22,12 @@ export default function Profile() {
 
   const [container, setContainer] = useState(0);
   const [infoToDisplay, setInfoToDisplay] = useState("");
+  const axiosInstance = getAxiosInstance();
 
-  if (user.address_id)
-    useEffect(() => {
-      axios
-        .get(`${import.meta.env.VITE_BACKEND_URL}/addresses/${user.address_id}`)
+  useEffect(() => {
+    if (user.address_id)
+      axiosInstance
+        .get(`/addresses/${user.address_id}`)
         .then((result) => {
           setHouseNb(result.data.house_number);
           setStreet(result.data.street_address);
@@ -36,11 +37,11 @@ export default function Profile() {
           setCountry(result.data.country);
         })
         .catch((err) => console.error(err));
-    }, [updateAddress, setUser]);
+  }, [updateAddress, setUser]);
 
   const changeFirstname = () => {
-    axios
-      .put(`${import.meta.env.VITE_BACKEND_URL}/users/${user.id}/firstname`, {
+    axiosInstance
+      .put(`/users/${user.id}/firstname`, {
         firstname,
       })
       .then((res) => {
@@ -54,8 +55,8 @@ export default function Profile() {
   };
 
   const changeLastname = () => {
-    axios
-      .put(`${import.meta.env.VITE_BACKEND_URL}/users/${user.id}/lastname`, {
+    axiosInstance
+      .put(`/users/${user.id}/lastname`, {
         lastname,
       })
       .then((res) => {
@@ -69,8 +70,8 @@ export default function Profile() {
   };
 
   const changePassword = () => {
-    axios
-      .put(`${import.meta.env.VITE_BACKEND_URL}/users/${user.id}/password`, {
+    axiosInstance
+      .put(`/users/${user.id}/password`, {
         password,
       })
       .then((res) => {
@@ -84,8 +85,8 @@ export default function Profile() {
 
   const changeAddress = () => {
     if (!user.address_id)
-      axios
-        .post(`${import.meta.env.VITE_BACKEND_URL}/addresses`, {
+      axiosInstance
+        .post(`/addresses`, {
           house_number: houseNb,
           street_address: street,
           appartment: appart,
@@ -95,15 +96,10 @@ export default function Profile() {
         })
         .then((result) => {
           if (result.status === 201)
-            axios
-              .put(
-                `${import.meta.env.VITE_BACKEND_URL}/users/${
-                  user.id
-                }/addressId`,
-                {
-                  address_id: result.data.id,
-                }
-              )
+            axiosInstance
+              .put(`/users/${user.id}/addressId`, {
+                address_id: result.data.id,
+              })
               .then((res) => {
                 if (res.status === 204)
                   setUser({ ...user, address_id: result.data.id });
@@ -112,18 +108,15 @@ export default function Profile() {
         })
         .catch((err) => console.error(err));
     else
-      axios
-        .put(
-          `${import.meta.env.VITE_BACKEND_URL}/addresses/${user.address_id}`,
-          {
-            house_number: houseNb,
-            street_address: street,
-            appartment: appart,
-            zip_code: zipCode,
-            region,
-            country,
-          }
-        )
+      axiosInstance
+        .put(`/addresses/${user.address_id}`, {
+          house_number: houseNb,
+          street_address: street,
+          appartment: appart,
+          zip_code: zipCode,
+          region,
+          country,
+        })
         .then((result) => {
           console.info(result);
           setUpdateAddress(!updateAddress);
@@ -132,17 +125,13 @@ export default function Profile() {
   };
 
   const deleteAccount = () => {
-    axios
-      .delete(`${import.meta.env.VITE_BACKEND_URL}/users/${user.id}`)
+    axiosInstance
+      .delete(`/users/${user.id}`)
       .then((result) => {
         if (result.status === 204) {
           if (user.address_id) {
-            axios
-              .delete(
-                `${import.meta.env.VITE_BACKEND_URL}/addresses/${
-                  user.address_id
-                }`
-              )
+            axiosInstance
+              .delete(`/addresses/${user.address_id}`)
               .then((res) => {
                 if (res.status === 204) console.info(res);
               })

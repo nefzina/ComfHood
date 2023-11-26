@@ -1,18 +1,20 @@
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import bannerImg from "../assets/homePage-welcomeSection.jpg";
-import UserContext from "../contexts/UserContext";
-import "../scss/home.scss";
 import changeQuantity from "../services/changeQuantity";
+import getAxiosInstance from "../services/axios";
+import UserContext from "../contexts/UserContext";
+
+import bannerImg from "../assets/homePage-welcomeSection.jpg";
+import "../scss/home.scss";
 
 export default function Home() {
   const [productsList, setProductsList] = useState([]);
   const { user, cartItems, setCartItems } = useContext(UserContext);
+  const axiosInstance = getAxiosInstance();
 
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/items`)
+    axiosInstance
+      .get(`/publicItems`)
       .then((result) => setProductsList(result.data))
       .catch((err) => console.error(err));
   }, []);
@@ -20,17 +22,13 @@ export default function Home() {
   const AddToCart = (e, newProductId) => {
     e.preventDefault();
     if (user) {
-      axios
-        .get(
-          `${import.meta.env.VITE_BACKEND_URL}/carts/${user.id}/${
-            e.target.value
-          }`
-        )
+      axiosInstance
+        .get(`/carts/${user.id}/${e.target.value}`)
         .then((result) => {
           // item doesn't exist
           if (result.data.message === "not found") {
-            axios
-              .post(`${import.meta.env.VITE_BACKEND_URL}/carts`, {
+            axiosInstance
+              .post(`/carts`, {
                 item_id: parseInt(e.target.value, 10),
                 user_id: user.id,
                 quantity: 1,
@@ -43,8 +41,8 @@ export default function Home() {
               .catch((err) => console.error(err));
           } else {
             // item exists already
-            axios
-              .put(`${import.meta.env.VITE_BACKEND_URL}/carts`, {
+            axiosInstance
+              .put(`/carts`, {
                 item_id: parseInt(e.target.value, 10),
                 user_id: user.id,
                 quantity: result.data.quantity + 1,

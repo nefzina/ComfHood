@@ -22,7 +22,7 @@ const validateName = (name, fieldName) => {
 
 const validatePassword = (pw) => {
   const regex =
-    /^(?=.*[0-9])(?=.*[!@#$%^&*€])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*€]{8,16}$/;
+    /^(?=.*[0-9])(?=.*[!@#$%^&*€])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*€-]{8,16}$/;
   if (!pw) {
     return `Password is required !`;
   } else if (!regex.test(pw)) {

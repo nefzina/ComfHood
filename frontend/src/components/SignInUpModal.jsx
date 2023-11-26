@@ -1,8 +1,9 @@
-import Axios from "axios";
-import { Alert, Snackbar } from "@mui/material";
 import PropTypes from "prop-types";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Alert from "./Alert";
+import closeBtn from "../assets/close.png";
+import getAxiosInstance from "../services/axios";
 import UserContext from "../contexts/UserContext";
 import {
   validateEmail,
@@ -12,11 +13,11 @@ import {
 import "../scss/signinupmodal.scss";
 
 export default function SignInUpModal({ setShowModal, tab, setTab }) {
-  // const [tab, setTab] = useState(1);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
+  const axiosInstance = getAxiosInstance();
 
   const [errors, setErrors] = useState({
     email: "",
@@ -25,68 +26,97 @@ export default function SignInUpModal({ setShowModal, tab, setTab }) {
     lastname: "",
   });
 
-  const { setUser } = useContext(UserContext);
+  const { setUser, setToken } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const [alert, setAlert] = useState(false);
+  const [alert, setAlert] = useState({ success: "", error: "" });
 
   const handleSignIn = (e) => {
     e.preventDefault();
-    Axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`, {
-      email,
-      password,
-    })
+    axiosInstance
+      .post(`/login`, {
+        email,
+        password,
+      })
       .then((res) => {
-        if (res.data.role_id === 2) {
-          setUser(res.data);
-          setTimeout(() => {
-            setShowModal(false);
-            navigate("/dashboard");
-          }, 400);
-        } else if (res.data.role_id === 1) {
-          setUser(res.data);
-          setTimeout(() => {
-            setShowModal(false);
-          }, 400);
+        if (res.data.currentUser.role_id) {
+          setUser(res.data.currentUser);
+          setToken(res.data.token);
 
-          if (localStorage.getItem("cartItems")) {
-            const data = JSON.parse(localStorage.getItem("cartItems"));
-            data.forEach((element) => {
-              Axios.get(
-                `${import.meta.env.VITE_BACKEND_URL}/carts/${res.data.id}/${
-                  element.id
-                }`
-              )
-                .then((result) => {
-                  // item doesn't exist in cart
-                  if (result.data.message === "not found") {
-                    Axios.post(`${import.meta.env.VITE_BACKEND_URL}/carts`, {
-                      user_id: res.data.id,
-                      item_id: element.id,
-                      quantity: element.quantity,
-                    })
-                      .then((response) => console.info(response))
-                      .catch((err) => console.error(err));
-                  }
-                  // item exists in cart
-                  else {
-                    Axios.put(`${import.meta.env.VITE_BACKEND_URL}/carts`, {
-                      user_id: res.data.id,
-                      item_id: element.id,
-                      quantity: result.data.quantity + element.quantity,
-                    })
-                      .then((response) => console.info(response))
-                      .catch((err) => console.error(err));
-                  }
-                })
-                .catch((err) => console.error(err));
-            });
-            localStorage.removeItem("cartItems");
+          if (res.data.currentUser.role_id === 2) {
+            setTimeout(() => {
+              setShowModal(false);
+              navigate("/dashboard");
+            }, 400);
+          } else if (res.data.currentUser.role_id === 1) {
+            setTimeout(() => {
+              setShowModal(false);
+            }, 400);
+
+            if (localStorage.getItem("cartItems")) {
+              const data = JSON.parse(localStorage.getItem("cartItems"));
+              data.forEach((element) => {
+                // verify if the local storage item exists or not in user cart in DB
+                axiosInstance
+                  .get(`/carts/${res.data.id}/${element.id}`, {
+                    headers: { Authorization: `Bearer ${res.data.token}` },
+                  })
+                  .then((result) => {
+                    // item doesn't exist in cart
+                    if (result.data.message === "not found") {
+                      axiosInstance
+                        .post(
+                          `/carts`,
+                          {
+                            user_id: res.data.id,
+                            item_id: element.id,
+                            quantity: element.quantity,
+                          },
+                          {
+                            headers: {
+                              Authorization: `Bearer ${res.data.token}`,
+                            },
+                          }
+                        )
+                        .then((response) => console.info(response))
+                        .catch((err) => console.error(err));
+                    }
+                    // item exists in cart
+                    else {
+                      axiosInstance
+                        .put(
+                          `/carts`,
+                          {
+                            user_id: res.data.id,
+                            item_id: element.id,
+                            quantity: result.data.quantity + element.quantity,
+                          },
+                          {
+                            headers: {
+                              Authorization: `Bearer ${res.data.token}`,
+                            },
+                          }
+                        )
+                        .then((response) => console.info(response))
+                        .catch((err) => console.error(err));
+                    }
+                  })
+                  .catch((err) => console.error(err));
+              });
+              localStorage.removeItem("cartItems");
+            }
           }
-        }
+        } else setAlert({ success: "", error: "Wrong email or password !" });
       })
 
-      .catch((err) => console.error(err));
+      .catch(() =>
+        setAlert({ success: "", error: "Wrong email or password !" })
+      );
+    setEmail("");
+    setPassword("");
+    setTimeout(() => {
+      setAlert({ success: "", error: "" });
+    }, 4000);
   };
 
   const handleSignUp = (e) => {
@@ -104,17 +134,37 @@ export default function SignInUpModal({ setShowModal, tab, setTab }) {
       !validateName(firstname, "firstname") &&
       !validateName(lastname, "lastname")
     ) {
-      Axios.post(`${import.meta.env.VITE_BACKEND_URL}/users`, {
-        firstname,
-        lastname,
-        email,
-        password,
-      })
+      axiosInstance
+        .post(`/users`, {
+          firstname,
+          lastname,
+          email,
+          password,
+        })
         .then((result) => {
-          if (result.status === 204) setAlert(true);
+          if (result.status === 201)
+            setAlert({
+              success:
+                "Your account has been created ! Sign in and enjoy your shopping !",
+              error: "",
+            });
+          else {
+            setAlert({
+              success: "",
+              error: "Error occured ! Please try again !",
+            });
+          }
         })
         .catch((err) => console.error(err));
     }
+
+    setFirstname("");
+    setLastname("");
+    setEmail("");
+    setPassword("");
+    setTimeout(() => {
+      setAlert({ success: "", error: "" });
+    }, 6000);
   };
 
   return (
@@ -124,7 +174,7 @@ export default function SignInUpModal({ setShowModal, tab, setTab }) {
         className="close"
         onClick={() => setShowModal(false)}
       >
-        X
+        <img src={closeBtn} alt="close button" />
       </button>
       <div className="tabs">
         <button type="button" onClick={() => setTab(1)}>
@@ -155,8 +205,14 @@ export default function SignInUpModal({ setShowModal, tab, setTab }) {
                 onChange={(e) => setPassword(e.target.value)}
               />
 
-              <button type="submit">Sign in</button>
+              <button type="submit" className="brownBtn">
+                Sign in
+              </button>
             </form>
+
+            {(alert.success.length || alert.error.length) && (
+              <Alert alert={alert} />
+            )}
           </div>
         )}
         {tab === 2 && (
@@ -222,16 +278,13 @@ export default function SignInUpModal({ setShowModal, tab, setTab }) {
               />
               {errors.password && <p className="error">{errors.password}</p>}
 
-              <button type="submit">Sign up</button>
+              <button type="submit" className="brownBtn">
+                Sign up
+              </button>
             </form>
 
-            {alert && (
-              <Snackbar>
-                <Alert severity="success" sx={{ width: "200px" }}>
-                  Your account has been created ! Sign in and enjoy your
-                  shopping !
-                </Alert>
-              </Snackbar>
+            {(alert.success.length || alert.error.length) && (
+              <Alert alert={alert} />
             )}
           </div>
         )}
