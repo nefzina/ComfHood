@@ -45,7 +45,7 @@ const validatePassword = (req, res, next) => {
   const { error } = Joi.object({
     password: Joi.string()
       .pattern(
-        /^(?=.*[0-9])(?=.*[!@#$%^&*€])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*€]{8,16}$/
+        /^(?=.*[0-9])(?=.*[!@#$%^&*€])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*€-]{8,16}$/
       )
       .required(),
   }).validate({ password }, { abortEarly: false });

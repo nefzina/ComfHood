@@ -1,29 +1,28 @@
-import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useContext, useEffect, useState } from "react";
-import totalPrice from "../services/totalPrice";
 import changeQuantity from "../services/changeQuantity";
+import getAxiosInstance from "../services/axios";
+import totalPrice from "../services/totalPrice";
 import UserContext from "../contexts/UserContext";
 import "../scss/cart.scss";
 
 export default function Cart({ setTab, setShowModal }) {
   const { user } = useContext(UserContext);
   const [bddItems, setBddItems] = useState([]);
+  const axiosInstance = getAxiosInstance();
 
   useEffect(() => {
     let ignore = false;
 
     if (user) {
-      axios
-        .get(`${import.meta.env.VITE_BACKEND_URL}/carts/${user.id}`)
+      axiosInstance
+        .get(`/carts/${user.id}`)
         .then((result) => {
           if (result.data.length)
             result.data.forEach((element) => {
-              axios
-                .get(
-                  `${import.meta.env.VITE_BACKEND_URL}/items/${element.item_id}`
-                )
+              axiosInstance
+                .get(`/items/${element.item_id}`)
                 .then((res) => {
                   if (!ignore)
                     setBddItems((previousValue) => [
@@ -35,10 +34,10 @@ export default function Cart({ setTab, setShowModal }) {
             });
         })
         .catch((err) => console.error(err));
-    } else {
+    } else if (localStorage.getItem("cartItems")) {
       JSON.parse(localStorage.getItem("cartItems"))?.forEach((element) => {
-        axios
-          .get(`${import.meta.env.VITE_BACKEND_URL}/items/${element.id}`)
+        axiosInstance
+          .get(`/items/${element.id}`)
           .then((result) => {
             if (!ignore)
               setBddItems((previousValues) => [
@@ -57,7 +56,7 @@ export default function Cart({ setTab, setShowModal }) {
       <table className="cartItems">
         <thead>
           <tr>
-            <th className="productHeader">Product</th>
+            <th className="productHeader">Products in cart</th>
             <th className="quantityHeader desktop">Quantity</th>
             <th className="priceHeader">Total</th>
           </tr>
@@ -66,58 +65,65 @@ export default function Cart({ setTab, setShowModal }) {
           {bddItems.map((item) => (
             <tr key={item.id} className="row">
               <td className="productData">
-                <Link to={`/items/${item.id}`}>
+                <Link to={`/items/${item.id}`} className="imgLink">
                   <img
                     src={`${import.meta.env.VITE_BACKEND_URL}${item.photo}`}
                     alt={item.name}
                   />
                 </Link>
-                <div>
+                <div className="data">
                   <Link to={`/items/${item.id}`}>{item.name}</Link>
                   <p>{item.price} €</p>
                   <p>Color: {item.color}</p>
                   <p>Size: one size</p>
                   <div className="mobile">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setBddItems(
-                          changeQuantity(bddItems, item.id, "substract")
-                        )
-                      }
-                    >
-                      -
-                    </button>
-                    <p className="quantity">{item.quantity}</p>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setBddItems(changeQuantity(bddItems, item.id, "add"))
-                      }
-                    >
-                      +
-                    </button>
+                    Quantity:
+                    <div className="quantityContainer">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setBddItems(
+                            changeQuantity(bddItems, item.id, "substract")
+                          )
+                        }
+                      >
+                        -
+                      </button>
+                      <p className="quantity">{item.quantity}</p>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setBddItems(changeQuantity(bddItems, item.id, "add"))
+                        }
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                 </div>
               </td>
               <td className="desktop">
-                <button
-                  type="button"
-                  onClick={() =>
-                    setBddItems(changeQuantity(bddItems, item.id, "substract"))
-                  }
-                >
-                  -
-                </button>
-                <p className="quantity">{item.quantity}</p>
-                <button
-                  type="button"
-                  onClick={() =>
-                    setBddItems(changeQuantity(bddItems, item.id, "add"))
-                  }
-                >
-                  +
-                </button>
+                <div className="quantityContainer">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setBddItems(
+                        changeQuantity(bddItems, item.id, "substract")
+                      )
+                    }
+                  >
+                    -
+                  </button>
+                  <p className="quantity">{item.quantity}</p>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setBddItems(changeQuantity(bddItems, item.id, "add"))
+                    }
+                  >
+                    +
+                  </button>
+                </div>
               </td>
               <td>{totalPrice([item])} €</td>
             </tr>
@@ -130,14 +136,17 @@ export default function Cart({ setTab, setShowModal }) {
         </h3>
         <button
           type="button"
-          className="checkoutBtn"
+          className="greenBtn"
           onClick={() => {
             if (!user) {
               setShowModal(true);
+            } else {
+              Navigate("/checkout");
             }
           }}
         >
-          {user ? <Link to="/checkout">Validate</Link> : <span>validate</span>}
+          Validate
+          {/* {user ? <Link to="/checkout">Validate</Link> : <span>validate</span>} */}
         </button>
       </div>
     </>

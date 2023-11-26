@@ -53,14 +53,10 @@ For deployment, you have to go to `secrets` → app `actions` on the github repo
 - CAPROVER_SERVER : link of domain
 
 
-<a href="https://www.flaticon.com/free-icons/animals" title="animals icons">Animals icons created by Freepik - Flaticon</a>
 
 <a href="https://www.freepik.com/free-ai-image/fashionable-men-jacket-hanging-clothing-store-generated-by-ai_42735497.htm#query=t-shirts%20hoodies&position=15&from_view=search&track=ais">Image By vecstock</a>
 Photo de <a href="https://unsplash.com/fr/@timothywilliamrose?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Timothy Rose</a> sur <a href="https://unsplash.com/fr/photos/nBaf7c_wd80?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
 
-<a href="https://www.flaticon.com/free-icons/log-out" title="log out icons">Log out icons created by Anggara - Flaticon</a>
-
-<a href="https://www.flaticon.com/free-icons/logout" title="logout icons">Logout icons created by Md Tanvirul Haque - Flaticon</a>
   
 
  <a href="https://www.flaticon.com/free-icons/down-arrow" title="down arrow icons">Down arrow icons created by Freepik - Flaticon</a>
@@ -76,3 +72,5 @@ Photo de <a href="https://unsplash.com/fr/@timothywilliamrose?utm_content=credit
  <a href="https://www.flaticon.com/free-icons/shopping-cart" title="shopping-cart icons">Shopping-cart icons created by Roundicons Premium - Flaticon</a>
 
  <a href="https://www.flaticon.com/free-icons/404-error" title="404-error icons">404-error icons created by Ghozi Muhtarom - Flaticon</a>
+
+ <a href="https://www.flaticon.com/free-icons/close" title="close icons">Close icons created by Freepik - Flaticon</a>

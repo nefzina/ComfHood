@@ -24,9 +24,6 @@
   --hover: #ddc0a4;
   --roboto: "Roboto", sans-serif;
   --black: #1e1e1e;
-  --navyBlue: #1d1d1f;
-  --violet: #6161db;
-  --pink: #e546d8;
 }
 
 .app {
@@ -104,11 +101,17 @@
   .greenBtn {
     background-color: var(--green);
     color: var(--bg-color);
-    padding: 8px 20px;
+    padding: 8px 40px;
     border: none;
     border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 2px 2px 5px #7e7e7e;
+
     &:hover {
-      font-weight: 600;
+      color: var(--green);
+      background-color: var(--bg-color);
+      border: 1px solid var(--green);
     }
   }
 
@@ -117,10 +120,31 @@
     color: var(--bg-color);
     padding: 8px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: 600;
+
     &:hover {
       background-color: var(--orange);
     }
+  }
+  .successAlert,
+  .errorAlert {
+    padding: 10px 20px;
+    max-width: 500px;
+    border-radius: 4px;
+    margin: 20px auto;
+  }
+  .successAlert {
+    background-color: #bfddd6;
+    color: var(--green);
+    border: 1px solid var(--green);
+  }
+
+  .errorAlert {
+    background-color: #e9ccc8;
+    color: var(--orange);
+    border: 1px solid var(--orange);
   }
 
   @media screen and (min-width: 600px) {

@@ -32,7 +32,7 @@ CREATE TABLE users (
 INSERT INTO users (firstname, lastname, email, hpassword, role_id) VALUES
 ("first", "visitor", "visitor@mail.com ", "$argon2id$v=19$m=65536,t=5,p=1$7ZWpaTY9eIv+zChdo6bj1A$3bMjdfo1iY8NRzLnnTEVkNQokxQ0kdKhp9sCOqduIzA", 1),
 ("Koukie ", "Dough ", "cookie@mail.com", "$argon2id$v=19$m=65536,t=5,p=1$3/eCgecXfcEqbq8KHNPpmg$zbyxJvBNBSLD7iCUzqji09J/7S8C6h2jZKlAVc+0s8M", 1),
-("lilac", "flower", "lilac@mail.com", "$argon2id$v=19$m=65536,t=5,p=1$al5PkvjEtY0hpu2jhw1iEQ$hEb/onodTxwUVAbMKAk9vm26tYktN/8I4HjR2tyHed8", 2);
+("lilac", "flower", "lilac@mail.com", "$argon2id$v=19$m=65536,t=5,p=1$W4KesZive63XGzmGZ0XFvA$S7Xpk4xgfT2taU89Phgf6iXDCuDDdjdvczZmypM1sjw", 2);
 
 -- types table --
 CREATE TABLE types (
@@ -59,8 +59,10 @@ price float NOT NULL
 INSERT INTO items(type_id, name, material, stock_quantity, sold_quantity, color,
 description, photo, isPublic, price) VALUES
 (1, "Printed hoodie - skull flower", "100% coton", 25, 0,"yellow","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mollis sodales nibh quis venenatis. Phasellus vel nulla vitae nulla tincidunt.", "/uploads/0b968b3a-f1d6-4e96-990a-590f020708f4-yellow-skull-flower-hoodie.jpg", 1, 25.5),
-(2,"money heist tshirt", "100% coton", 30, 0,"blue  ","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mollis sodales nibh quis venenatis. Phasellus vel nulla vitae nulla tincidunt.", "/uploads/f3b7707c-b032-4744-8654-f685d3029b2d-tshirt-blue-money-heist.jpg", 1, 27),
-(2,"Dreamer tshirt    ", "100% coton", 25, 0,"white ","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mollis sodales nibh quis venenatis. Phasellus vel nulla vitae nulla tincidunt.", "/uploads/32a139aa-8698-4380-ba6f-ae948017c57b-Dreamer-white-tshirt.jpg   ", 1, 17.99);
+(2,"money heist tshirt", "100% coton", 30, 0,"blue","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mollis sodales nibh quis venenatis. Phasellus vel nulla vitae nulla tincidunt.", "/uploads/f3b7707c-b032-4744-8654-f685d3029b2d-tshirt-blue-money-heist.jpg", 1, 27),
+(2,"Dreamer tshirt", "100% coton", 25, 0,"white","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mollis sodales nibh quis venenatis. Phasellus vel nulla vitae nulla tincidunt.", "/uploads/32a139aa-8698-4380-ba6f-ae948017c57b-Dreamer-white-tshirt.jpg", 1, 17.99),
+(1, "Light pink hoodie", "100% coton", 30, 0, "Light pink", null,"/uploads/43a07e3a-79c7-43f3-82ab-bde95e00ff7c-light-pink-SF-hoodie.jpg", 1, 28),
+(1, "Red hoodie", "100% coton", 20, 0, "red", null,"/assets/images/tailoring.jpg", 0, 26.99);
 
  -- carts table --
 CREATE TABLE carts (

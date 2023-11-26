@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import "../scss/dashboard.scss";
-import axios from "axios";
+import getAxiosInstance from "../services/axios";
 
 export default function CustomersList() {
   const [usersList, setUsersList] = useState([]);
+  const axiosInstance = getAxiosInstance();
 
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/users`)
+    axiosInstance
+      .get(`/users`)
       .then((result) => setUsersList(result.data))
       .catch((err) => console.error(err));
   }, []);
