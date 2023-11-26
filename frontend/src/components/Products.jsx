@@ -56,7 +56,7 @@ export default function Products({ clothesTypes }) {
             <table>
               <thead>
                 <tr>
-                  <th>&nbsp;</th>
+                  <th style={{ color: "#f0ece8" }}>photo</th>
                   <th>Displayed</th>
                   <th>Price</th>
                   <th>stock</th>
