@@ -35,7 +35,7 @@ class CartsManager extends AbstractManager {
 
   deleteItem(userId, itemId) {
     return this.database.query(
-      `delete from ${this.table} where userId = ? and item_id = ?`,
+      `delete from ${this.table} where user_id = ? and item_id = ?`,
       [userId, itemId]
     );
   }

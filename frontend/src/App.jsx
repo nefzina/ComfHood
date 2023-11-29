@@ -1,5 +1,11 @@
 import { useContext, useState } from "react";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import Admin from "./pages/Admin";
 import AdminProtectedRoutes from "./layouts/AdminProtectedRoutes";
 import Cart from "./pages/Cart";
@@ -23,6 +29,7 @@ function App() {
   const [tab, setTab] = useState(1);
   const { user, setUser, setToken } = useContext(UserContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <div className="app">
@@ -57,7 +64,6 @@ function App() {
             <>
               <button
                 type="button"
-                title="Log out"
                 onClick={() => {
                   setUser(null);
                   setToken(null);
@@ -79,6 +85,7 @@ function App() {
           </Link>
         </div>
       </header>
+      {location.pathname !== "/" && <div className="line" />}
 
       {showModal && (
         <SignInUpModal setShowModal={setShowModal} tab={tab} setTab={setTab} />
@@ -109,6 +116,7 @@ function App() {
         <Route path="*" element={<PageNotFound />} />
       </Routes>
 
+      <div className="line" />
       <Footer setShowModal={setShowModal} setTab={setTab} />
     </div>
   );

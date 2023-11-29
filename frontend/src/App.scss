@@ -1,9 +1,7 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Roboto", sans-serif;
   box-sizing: border-box;
 }
 
@@ -13,17 +11,14 @@
     url("./fonts/Rubik_Mono_One/RubikMonoOne-Regular.ttf") format("TrueType");
 }
 
-/* font-size: calc(10px + 2vmin); */
-
 :root {
   --bg-color: #f0ece8;
   --green: #315b51;
   --orange: #b04623;
-  --light-brown: #926e62;
   --dark-brown: #704232;
-  --hover: #ddc0a4;
-  --roboto: "Roboto", sans-serif;
+  --light-brown: #926e62;
   --black: #1e1e1e;
+  --hover: #ddc0a4;
 }
 
 .app {
@@ -42,28 +37,31 @@
     padding: 0 10px;
 
     .buttons {
-      width: 50%;
-      max-width: 300px;
+      max-width: 400px;
       display: flex;
       justify-content: space-between;
+      gap: clamp(5px, 3vw, 20px);
       img {
         width: 20px;
       }
 
-      button {
+      button,
+      .link {
         background: none;
         border: none;
-        width: 80px;
         height: 50px;
         color: var(--green);
         font-weight: 600;
+        font-size: clamp(0.9rem, 3vw, 1.1rem);
+        cursor: pointer;
 
         &:hover {
-          background-color: #ddc0a4;
+          background-color: var(--hover);
         }
       }
 
-      .cart {
+      .cart,
+      .link {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -75,8 +73,21 @@
       .link {
         text-decoration: none;
         color: var(--green);
+
+        &:hover {
+          background-color: var(--hover);
+        }
       }
     }
+  }
+
+  .line {
+    width: 94%;
+    height: 1px;
+    border-bottom: 4px solid var(--dark-brown);
+    box-shadow: 0 2px 5px rgb(97, 97, 97);
+    margin: 0 auto;
+    margin-bottom: 30px;
   }
 
   .logo {

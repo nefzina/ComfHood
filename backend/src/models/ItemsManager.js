@@ -7,7 +7,7 @@ class ItemsManager extends AbstractManager {
 
   findPublic() {
     return this.database.query(
-      `select * from ${this.table} where isPublic = 1`
+      `select * from ${this.table} where isPublic = 1 and stock_quantity > 0`
     );
   }
 
@@ -58,6 +58,13 @@ class ItemsManager extends AbstractManager {
         item.price,
         item.id,
       ]
+    );
+  }
+
+  updateQuantities(item) {
+    return this.database.query(
+      `update ${this.table} set stock_quantity = ?, sold_quantity = ? where id = ?`,
+      [item.stockQuantity, item.soldQuantity, item.id]
     );
   }
 }

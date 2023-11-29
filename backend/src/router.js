@@ -33,6 +33,7 @@ router.get("/items", verifyToken, itemsControllers.browse);
 router.get("/items/:id", itemsControllers.read);
 router.post("/items", verifyToken, itemsControllers.add);
 router.put("/items/:id", verifyToken, itemsControllers.edit);
+router.patch("/items/:id", verifyToken, itemsControllers.editQuantities);
 router.delete("/items/:id", verifyToken, itemsControllers.destroy);
 
 router.get("/types", typesControllers.browse);
@@ -79,7 +80,6 @@ router.put(
   validateAddressId,
   usersControllers.editAddressId
 );
-
 router.delete("/users/:id", verifyToken, usersControllers.destroy);
 
 router.get("/carts/:id", verifyToken, cartsControllers.readByUserId);
