@@ -1,4 +1,4 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useContext, useEffect, useState } from "react";
 import changeQuantity from "../services/changeQuantity";
@@ -11,6 +11,7 @@ export default function Cart({ setTab, setShowModal }) {
   const { user } = useContext(UserContext);
   const [bddItems, setBddItems] = useState([]);
   const axiosInstance = getAxiosInstance();
+  const navigate = useNavigate();
 
   useEffect(() => {
     let ignore = false;
@@ -141,7 +142,7 @@ export default function Cart({ setTab, setShowModal }) {
             if (!user) {
               setShowModal(true);
             } else {
-              Navigate("/checkout");
+              navigate("/checkout");
             }
           }}
         >

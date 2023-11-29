@@ -78,17 +78,9 @@ export default function Checkout() {
             .get(`/items/${element.item_id}`)
             .then((res) => {
               axiosInstance
-                .put(`/items/${element.item_id}`, {
-                  type_id: res.data.type_id,
-                  name: res.data.name,
-                  material: res.data.material,
-                  stock_quantity: res.data.stock_quantity - element.quantity,
-                  sold_quantity: res.data.sold_quantity + element.quantity,
-                  color: res.data.color,
-                  description: res.data.description,
-                  photo: res.data.photo,
-                  isPublic: res.data.isPublic,
-                  price: res.data.price,
+                .patch(`/items/${element.item_id}`, {
+                  stockQuantity: res.data.stock_quantity - element.quantity,
+                  soldQuantity: res.data.sold_quantity + element.quantity,
                 })
                 .then((response) => {
                   if (response.status === 204)
@@ -103,95 +95,102 @@ export default function Checkout() {
         });
       })
       .catch((err) => console.error(err));
+
+    setAlert(true);
   };
 
   return (
-    <div className="checkout">
-      <div className="contact">
-        Contact
-        <fieldset>
-          <label htmlFor="email">Email</label>
-          <input type="text" id="email" value={user?.email} />
-        </fieldset>
-      </div>
-
-      <form className="addressForm" onSubmit={saveAddress}>
-        Address
-        <div className="line1">
+    <>
+      <div className="checkout">
+        <div className="contact">
+          Contact
           <fieldset>
-            <label htmlFor="houseNB">House N°</label>
-            <input
-              id="houseNB"
-              type="number"
-              min="1"
-              value={houseNb}
-              onChange={(e) => setHouseNb(e.target.value)}
-            />
-          </fieldset>
-
-          <fieldset>
-            <label htmlFor="streetAddress">Street</label>
-            <input
-              id="streetAddress"
-              type="text"
-              value={street}
-              onChange={(e) => setStreet(e.target.value)}
-            />
+            <label htmlFor="email">Email</label>
+            <input type="text" id="email" value={user?.email} />
           </fieldset>
         </div>
-        <fieldset>
-          <label htmlFor="appartment">Appartement</label>
-          <input
-            id="appartment"
-            type="text"
-            value={appart}
-            onChange={(e) => setAppart(e.target.value)}
-          />
-        </fieldset>
-        <fieldset>
-          <label htmlFor="zipCode">Zip code</label>
-          <input
-            id="zipCode"
-            type="number"
-            value={zipCode}
-            onChange={(e) => setZipCode(e.target.value)}
-          />
-        </fieldset>
-        <fieldset>
-          <label htmlFor="region">Region</label>
-          <input
-            id="region"
-            type="text"
-            value={region}
-            onChange={(e) => setRegion(e.target.value)}
-          />
-        </fieldset>
-        <fieldset>
-          <label htmlFor="country">Country</label>
-          <input
-            id="country"
-            type="text"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-          />
-        </fieldset>
-        <button type="submit">Save address</button>
-        <button
-          type="button"
-          onClick={() => {
-            handleDelivery();
-            setAlert(true);
-          }}
-        >
-          Place order
-        </button>
-      </form>
 
+        <form className="addressForm" onSubmit={saveAddress}>
+          Address
+          <div className="line1">
+            <fieldset className="field1">
+              <label htmlFor="houseNB">House N°</label>
+              <input
+                id="houseNB"
+                type="number"
+                min="1"
+                value={houseNb}
+                onChange={(e) => setHouseNb(e.target.value)}
+              />
+            </fieldset>
+
+            <fieldset className="field2">
+              <label htmlFor="streetAddress">Street</label>
+              <input
+                id="streetAddress"
+                type="text"
+                value={street}
+                onChange={(e) => setStreet(e.target.value)}
+              />
+            </fieldset>
+          </div>
+          <fieldset>
+            <label htmlFor="appartment">Appartement</label>
+            <input
+              id="appartment"
+              type="text"
+              value={appart}
+              onChange={(e) => setAppart(e.target.value)}
+            />
+          </fieldset>
+          <fieldset>
+            <label htmlFor="zipCode">Zip code</label>
+            <input
+              id="zipCode"
+              type="number"
+              value={zipCode}
+              onChange={(e) => setZipCode(e.target.value)}
+            />
+          </fieldset>
+          <fieldset>
+            <label htmlFor="region">Region</label>
+            <input
+              id="region"
+              type="text"
+              value={region}
+              onChange={(e) => setRegion(e.target.value)}
+            />
+          </fieldset>
+          <fieldset>
+            <label htmlFor="country">Country</label>
+            <input
+              id="country"
+              type="text"
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+            />
+          </fieldset>
+          <div className="buttons">
+            <button type="submit" className="greenBtn">
+              Save address
+            </button>
+            <button
+              type="button"
+              className="greenBtn"
+              onClick={() => {
+                handleDelivery();
+              }}
+            >
+              Place order
+            </button>
+          </div>
+        </form>
+      </div>
       {alert &&
         swal({
           text: "Order successfully placed",
           icon: "success",
         })}
-    </div>
+    </>
   );
 }
