@@ -7,7 +7,7 @@ class ItemsManager extends AbstractManager {
 
   findPublic() {
     return this.database.query(
-      `select * from ${this.table} where isPublic = 1`
+      `select * from ${this.table} where isPublic = 1 and stock_quantity > 0`
     );
   }
 

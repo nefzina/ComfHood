@@ -79,7 +79,6 @@ router.put(
   validateAddressId,
   usersControllers.editAddressId
 );
-
 router.delete("/users/:id", verifyToken, usersControllers.destroy);
 
 router.get("/carts/:id", verifyToken, cartsControllers.readByUserId);

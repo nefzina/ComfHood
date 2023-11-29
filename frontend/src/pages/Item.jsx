@@ -94,12 +94,12 @@ export default function Item() {
           <h2>{item.name}</h2>
           <p className="details-price">{item.price} €</p>
           <div className="details-color">
-            <p>Color</p>
+            <p className="label">Color</p>
             <h5>{item.color}</h5>
           </div>
 
           <div className="details-size">
-            <p>Size</p>
+            <p className="label">Size</p>
             <h5>one size</h5>
           </div>
 
@@ -122,7 +122,7 @@ export default function Item() {
 
           <button
             type="button"
-            className="addToCart"
+            className="addToCart greenBtn"
             value={item.id}
             onClick={(e) => AddToCart(e)}
           >
