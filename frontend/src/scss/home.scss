@@ -33,35 +33,46 @@
     max-width: 1250px;
     margin: 10px auto 40px;
     padding: clamp(5px, 3vw, 15px);
+    justify-items: center;
 
     .card {
       width: 100%;
-      max-width: 250px;
+      max-width: 220px;
       transition: all 0.2s ease-in-out;
       text-decoration: none;
       color: rgb(15, 15, 15);
       border-radius: 15px;
       overflow: hidden;
       box-shadow: 4px 3px 10px 7px rgba(46, 46, 46, 0.19);
+      max-height: 375px;
 
       img {
         width: 100%;
-        height: 70%;
+        height: 62%;
         object-fit: cover;
-      }
-      &:hover {
-        transform: scale(1.1);
       }
 
       .info {
+        height: fit-content;
+        display: flex;
         padding: 10px;
-        h3 {
-          font-size: clamp(0.8rem, 3vw, 1.1rem);
+        flex-direction: column;
+        h2 {
+          color: var(--black);
+          font-size: clamp(0.8rem, 3vw, 1.3rem);
+          margin: 0;
+          height: clamp(38px, 10vw, 47px);
         }
-        button {
-          margin-top: 20px;
-          padding: 5px 10px;
-          border-radius: 5px;
+        .greenBtn {
+          // margin-left: calc(100% - 154px);
+          margin-top: 10px;
+          width: clamp(115px, 5vw, 154px);
+          padding: clamp(5px, 3vw, 10px);
+          align-self: flex-end;
+        }
+
+        p {
+          font-size: clamp(0.8rem, 5vw, 1.2rem);
         }
       }
     }
@@ -101,8 +112,6 @@
         }
 
         &:hover {
-          transform: none;
-
           .info {
             display: flex;
             position: absolute;
@@ -110,10 +119,25 @@
             backdrop-filter: blur(10px);
             width: 100%;
             height: 100%;
-            background-color: rgba(219, 191, 213, 0.562);
+            background-color: rgba(224, 214, 215, 0.562);
             flex-direction: column;
             justify-content: center;
             align-items: center;
+
+            .greenBtn {
+              align-self: center;
+              background-color: var(--bg-color);
+              color: var(--black);
+
+              &:hover {
+                border: none;
+                color: var(--bg-color);
+                background-color: var(--green);
+              }
+            }
+            p {
+              margin-top: 10px;
+            }
           }
         }
       }

@@ -80,9 +80,9 @@ export default function Home() {
     <div className="home">
       <div className="banner">
         <img src={bannerImg} alt="male in hoodie" />
-        <h1 className="slogan">Wear more of what makes you Comfy</h1>
+        <h3 className="slogan">Wear more of what makes you Comfy</h3>
       </div>
-      <h2 className="title">Products list</h2>
+      <h1 className="title">Our selection of hoodies & t-shirts</h1>
       <div className="products">
         {productsList &&
           productsList.map((product) => (
@@ -92,10 +92,11 @@ export default function Home() {
                 alt={product.name}
               />
               <div className="info">
-                <h3>{product.name}</h3>
+                <h2>{product.name}</h2>
                 <p>{product.price} €</p>
                 <button
                   type="button"
+                  className="greenBtn"
                   value={product.id}
                   onClick={(e) => AddToCart(e, product.id)}
                 >
