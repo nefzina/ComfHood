@@ -11,37 +11,35 @@
     margin: 0 auto;
     width: 100%;
     max-width: 350px;
+    color: var(--orange);
+
+    label {
+      display: block;
+      font-size: clamp(0.8rem, 3vw, 1.1rem);
+      color: var(--green);
+      font-weight: 600;
+      margin-top: 15px;
+      padding: 0 3px;
+      width: fit-content;
+    }
+
+    input {
+      padding: 11px 10px;
+      font-size: 1rem;
+      border: 2px solid var(--green);
+      border-radius: 5px;
+      background: white;
+    }
   }
 
   .addressForm {
-    margin-top: 30px;
+    margin-top: 40px;
   }
 
   fieldset {
     display: flex;
     flex-direction: column;
-    position: static;
     border: none;
-  }
-
-  fieldset label {
-    font-size: clamp(0.8rem, 3vw, 1.1rem);
-    color: #818cf8;
-    font-weight: 600;
-    position: relative;
-    top: 0.5rem;
-    margin: 0 0 0 7px;
-    padding: 0 3px;
-    background: #e8e8e8;
-    width: fit-content;
-  }
-
-  fieldset input {
-    padding: 11px 10px;
-    font-size: 0.75rem;
-    border: 2px #818cf8 solid;
-    border-radius: 5px;
-    background: #e8e8e8;
   }
 
   input::-webkit-outer-spin-button,
@@ -57,9 +55,23 @@
   fieldset input:focus {
     outline: none;
   }
+
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 25px;
+
+    button {
+      font-size: 0.9rem;
+      width: 167px;
+      height: 35px;
+      padding: 0 30px;
+    }
+  }
 }
 
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 420px) {
   .contact,
   .addressForm {
     max-width: 650px;
@@ -68,10 +80,17 @@
   .addressForm {
     .line1 {
       display: flex;
-      justify-content: space-between;
+      gap: 10px;
+      width: 100%;
 
-      fieldset:first-child {
-        width: 60px;
+      .field1 {
+        width: 82px;
+        input {
+          width: 100%;
+        }
+      }
+      .field2 {
+        width: 258px;
       }
     }
   }

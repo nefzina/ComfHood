@@ -60,6 +60,25 @@ const edit = (req, res) => {
     });
 };
 
+const editQuantities = (req, res) => {
+  const item = req.body;
+
+  item.id = parseInt(req.params.id, 10);
+
+  models.items
+    .updateQuantities(item)
+    .then(([result]) => {
+      if (result.affectedRows === 0) {
+        res.sendStatus(404);
+      } else {
+        res.sendStatus(204);
+      }
+    })
+    .catch(() => {
+      res.sendStatus(500);
+    });
+};
+
 const add = (req, res) => {
   const item = req.body;
 
@@ -95,6 +114,7 @@ module.exports = {
   browsePublic,
   read,
   edit,
+  editQuantities,
   add,
   destroy,
 };

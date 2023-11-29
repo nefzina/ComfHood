@@ -60,6 +60,13 @@ class ItemsManager extends AbstractManager {
       ]
     );
   }
+
+  updateQuantities(item) {
+    return this.database.query(
+      `update ${this.table} set stock_quantity = ?, sold_quantity = ? where id = ?`,
+      [item.stockQuantity, item.soldQuantity, item.id]
+    );
+  }
 }
 
 module.exports = ItemsManager;
