@@ -1,7 +1,7 @@
+import axios from "axios";
 import PropTypes from "prop-types";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Alert from "./Alert";
 import closeBtn from "../assets/close.png";
 import getAxiosInstance from "../services/axios";
 import UserContext from "../contexts/UserContext";
@@ -10,6 +10,7 @@ import {
   validateName,
   validatePassword,
 } from "../services/validators";
+import Alert from "./Alert";
 import "../scss/signinupmodal.scss";
 
 export default function SignInUpModal({ setShowModal, tab, setTab }) {
@@ -57,18 +58,23 @@ export default function SignInUpModal({ setShowModal, tab, setTab }) {
               const data = JSON.parse(localStorage.getItem("cartItems"));
               data.forEach((element) => {
                 // verify if the local storage item exists or not in user cart in DB
-                axiosInstance
-                  .get(`/carts/${res.data.id}/${element.id}`, {
-                    headers: { Authorization: `Bearer ${res.data.token}` },
-                  })
+                axios
+                  .get(
+                    `${import.meta.env.VITE_BACKEND_URL}/carts/${
+                      res.data.currentUser.id
+                    }/${element.id}`,
+                    {
+                      headers: { Authorization: `Bearer ${res.data.token}` },
+                    }
+                  )
                   .then((result) => {
                     // item doesn't exist in cart
                     if (result.data.message === "not found") {
-                      axiosInstance
+                      axios
                         .post(
-                          `/carts`,
+                          `${import.meta.env.VITE_BACKEND_URL}/carts`,
                           {
-                            user_id: res.data.id,
+                            user_id: res.data.currentUser.id,
                             item_id: element.id,
                             quantity: element.quantity,
                           },
@@ -83,11 +89,11 @@ export default function SignInUpModal({ setShowModal, tab, setTab }) {
                     }
                     // item exists in cart
                     else {
-                      axiosInstance
+                      axios
                         .put(
-                          `/carts`,
+                          `${import.meta.env.VITE_BACKEND_URL}/carts`,
                           {
-                            user_id: res.data.id,
+                            user_id: res.data.currentUser.id,
                             item_id: element.id,
                             quantity: result.data.quantity + element.quantity,
                           },

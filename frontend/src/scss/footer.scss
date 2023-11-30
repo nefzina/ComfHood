@@ -28,8 +28,12 @@
     ul {
       margin: 0 50px 40px 0;
       order: 2;
+
       li {
         list-style: none;
+        .link {
+          text-decoration: none;
+        }
       }
     }
 

@@ -1,9 +1,11 @@
+import "../scss/rgpd.scss";
+
 export default function PrivacyPolicy() {
   return (
     <div className="privacyPolicy">
-      <h1>Confidentialité</h1>
+      <h3>Confidentialité</h3>
       <div>
-        <h2>Politique de confidentialité</h2>
+        <h4>Politique de confidentialité</h4>
         <div>
           <div>
             <div>

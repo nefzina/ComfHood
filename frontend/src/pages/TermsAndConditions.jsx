@@ -1,15 +1,13 @@
 import { Link } from "react-router-dom";
+import "../scss/rgpd.scss";
 
 export default function TermsAndConditions() {
   return (
-    <div className="page-width page-width--narrow section-template--15862305259777__main-padding">
-      <h1 className="main-page-title page-title h0">Mentions Légales</h1>
+    <div className="terms">
+      <h3 className="main">Mentions Légales</h3>
       <div className="rte">
         <meta charset="utf-8" />
-        <p className="p1">
-          <b>Informations&nbsp;L</b>
-          <b>égales</b>
-        </p>
+        <h4 className="p1">Informations&nbsp;Légales</h4>
         <p className="p2">
           <b>1. PRÉSENTATION DU SITE.</b>
         </p>
