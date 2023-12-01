@@ -155,6 +155,7 @@ export default function Profile() {
             <p>{user.firstname}</p>
             <button
               type="button"
+              className="greenBtn"
               onClick={() => {
                 setInfoToDisplay("firstname");
                 setContainer(1);
@@ -175,6 +176,7 @@ export default function Profile() {
             />
             <button
               type="button"
+              className="greenBtn"
               onClick={() => {
                 changeFirstname();
                 setInfoToDisplay("");
@@ -194,6 +196,7 @@ export default function Profile() {
             <p>{user.lastname}</p>
             <button
               type="button"
+              className="greenBtn"
               onClick={() => {
                 setInfoToDisplay("lastname");
                 setContainer(2);
@@ -214,6 +217,7 @@ export default function Profile() {
             />
             <button
               type="button"
+              className="greenBtn"
               onClick={() => {
                 changeLastname();
                 setInfoToDisplay("");
@@ -233,6 +237,7 @@ export default function Profile() {
             <p>{user.password}</p>
             <button
               type="button"
+              className="greenBtn"
               onClick={() => {
                 setInfoToDisplay("password");
                 setContainer(3);
@@ -253,6 +258,7 @@ export default function Profile() {
             />
             <button
               type="button"
+              className="greenBtn"
               onClick={() => {
                 changePassword();
                 setInfoToDisplay("");
@@ -283,6 +289,7 @@ export default function Profile() {
             </div>
             <button
               type="button"
+              className="greenBtn"
               onClick={() => {
                 setInfoToDisplay("address");
                 setContainer(4);
@@ -361,7 +368,9 @@ export default function Profile() {
                 onChange={(e) => setCountry(e.target.value)}
               />
             </div>
-            <button type="submit">Save</button>
+            <button type="submit" className="greenBtn">
+              Save
+            </button>
           </form>
         )}
       </div>

@@ -31,7 +31,8 @@ export default function Checkout() {
         .catch((err) => console.error(err));
   }, []);
 
-  const saveAddress = () => {
+  const saveAddress = (e) => {
+    e.preventDefault();
     if (!user.address_id)
       axiosInstance
         .post(`/addresses`, {
@@ -69,7 +70,9 @@ export default function Checkout() {
         .catch((err) => console.error(err));
   };
 
-  const handleDelivery = () => {
+  const handleDelivery = (e) => {
+    e.preventDefault();
+
     axiosInstance
       .get(`/carts/${user.id}`)
       .then((result) => {
@@ -93,10 +96,9 @@ export default function Checkout() {
             })
             .catch((err) => console.error(err));
         });
+        setAlert(true);
       })
       .catch((err) => console.error(err));
-
-    setAlert(true);
   };
 
   return (
@@ -174,15 +176,15 @@ export default function Checkout() {
             <button type="submit" className="greenBtn">
               Save address
             </button>
-            <button
-              type="button"
-              className="greenBtn"
-              onClick={() => {
-                handleDelivery();
-              }}
-            >
-              Place order
-            </button>
+            {houseNb && street && zipCode && region && (
+              <button
+                type="button"
+                className="greenBtn"
+                onClick={handleDelivery}
+              >
+                Place order
+              </button>
+            )}
           </div>
         </form>
       </div>
