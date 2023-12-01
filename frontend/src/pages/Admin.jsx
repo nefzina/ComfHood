@@ -8,7 +8,7 @@ import returnImg from "../assets/back.png";
 import "../scss/admin.scss";
 
 export default function Admin() {
-  const [tab, setTab] = useState("dashboard");
+  const [tab, setTab] = useState("products");
   const [showAdminNavBar, setShowAdminNavBar] = useState(false);
   const [clothesTypes, setClothesTypes] = useState([]);
   const axiosInstance = getAxiosInstance();
