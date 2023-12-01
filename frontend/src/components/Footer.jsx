@@ -21,10 +21,14 @@ export default function Footer({ setShowModal, setTab }) {
         <ul>
           <li>About</li>
           <li>
-            <Link to="/terms&conditions">Terms & conditions</Link>
+            <Link to="/terms&conditions" className="link">
+              Terms & conditions
+            </Link>
           </li>
           <li>
-            <Link to="/privacy-policy">Privacy policy</Link>{" "}
+            <Link to="/privacy-policy" className="link">
+              Privacy policy
+            </Link>{" "}
           </li>
         </ul>
 
